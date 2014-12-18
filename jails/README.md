@@ -131,3 +131,34 @@ One you have created the jail you need to configure the host in order to load th
         path = /tank/jails/sandbox;
         mount.fstab = /etc/fstab.$name;
     }
+
+Jail with ZFS:
+
+    exec.start = "mount -t devfs devfs /dev; /bin/sh /etc/rc";
+    exec.stop = "umount /dev; zfs umount -a; /bin/sh /etc/rc.shutdown";
+    exec.clean;
+    allow.mount;
+    allow.mount.zfs;
+    allow.mount.nullfs;
+    allow.sysvipc;
+    allow.raw_sockets;
+    mount.devfs;
+    enforce_statfs=1;
+    securelevel=3;
+    mount.fstab = "/etc/fstab.$name";
+    host.hostname = "$name.jail";
+
+    # Dynamic wildcard parameter:
+    # Base the path off the jail name.
+    path = "/tank/jails/$name";
+
+    base {
+        jid = 100;
+        ip4.addr = 10.1.2.3;
+    }
+
+    playground {
+        jid = 101;
+        ip4.addr = 10.1.2.4;
+        exec.poststart = "cpuset -c -l1-2 -j 101";
+    }

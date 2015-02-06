@@ -24,7 +24,7 @@ Edit the poudriere.conf, example:
     BASEFS=/usr/local/poudriere
     POUDRIERE_DATA=${BASEFS}/data
     USE_PORTLINT=no
-    USE_TMPFS=all
+    USE_TMPFS=yes
     DISTFILES_CACHE=/usr/ports/distfiles
     CHECK_CHANGED_OPTIONS=verbose
     CHECK_CHANGED_DEPS=yes

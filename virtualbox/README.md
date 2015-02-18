@@ -47,8 +47,10 @@ Start the VM:
     VBoxHeadless --startvm FBSD10
 
 
-chmod 0666
-==========
+devfs.conf
+----------
+
+If you get a permission denied warning indicating to chmod 0666 the tap device.
 
 Edit /etc/devfs.conf
 

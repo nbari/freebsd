@@ -45,3 +45,16 @@ Boot from disk (alter order):
 Start the VM:
 
     VBoxHeadless --startvm FBSD10
+
+
+chmod 0666
+==========
+
+Edit /etc/devfs.conf
+
+    [vbox=100]
+    add path tap* group wheel mode 660
+
+Add to rc.conf:
+
+    devfs_system_ruleset="vbox"

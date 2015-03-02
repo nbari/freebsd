@@ -45,3 +45,14 @@ Boot from disk (alter order):
 Start the VM:
 
     VBoxHeadless --startvm FBSD10
+
+
+Failed to open '/dev/tap0' for read/write access.
+-------------------------------------------------
+
+If you get a permission denied warning indicating to chmod 0666 /dev/tap0 device.
+
+Edit /etc/devfs.conf
+
+    own tap0 root:wheel
+    perm tap0 0660

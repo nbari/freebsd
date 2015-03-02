@@ -180,3 +180,6 @@ options   IPSEC_DEBUG
 device    crypto
 device    aesni
 device    enc
+
+# routes setfib
+options ROUTETABLES=16

@@ -51,6 +51,13 @@ What is ZFS + jails
 The solution to many deployment, management, backup, etc problems.
 
 
+Install
+=======
+
+Using an USB:
+
+    dd if=FreeBSD-10.1-RELEASE-amd64-uefi-memstick.img of=/dev/rdisk3 bs=64k conv=sync
+
 
 Related topic
 

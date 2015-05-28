@@ -183,3 +183,6 @@ device    enc
 
 # routes setfib
 options ROUTETABLES=16
+
+# zpty
+device pty

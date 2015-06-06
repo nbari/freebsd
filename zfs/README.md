@@ -155,3 +155,10 @@ Create the new vol and use swapon again
 Replace bad disks: https://blogs.oracle.com/mmusante/entry/howto_replace_a_bad_disk
 
 more info: https://pthree.org/2012/12/04/zfs-administration-part-i-vdevs/
+
+ZFS on MAC OS X
+---------------
+
+Create a mirror:
+
+    sudo zpool create -f -o ashift=12 -O normalization=formD tank mirror /dev/disk1 /dev/disk2

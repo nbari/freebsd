@@ -47,6 +47,10 @@ Create snapshot:
 
     # ec2-create-snapshot vol-5bd271b1 -d "freebsd test"
 
+Delete volume:
+
+    # ec2-delete-volume vol-5bd271b1
+
 Register AMI:
 
     # ec2-register -n "FreeBSD test" -d "FreeBSD AWS test" -a x86_64 --virtualization-type hvm --root-device-name /dev/sda1 -b "/dev/sda1=snap-ed9cd29e:10:false:gp2" -b "/dev/sdb=ephemeral0" -b "/dev/sdc=ephemeral1" -b "/dev/sdd=ephemeral2" -b "/dev/sde=ephemeral3"

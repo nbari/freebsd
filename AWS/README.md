@@ -41,7 +41,7 @@ For AWS:
 
 Import volume:
 
-    # ec2-import-volume ec2.raw -f raw -b freebsd-yourname
+    # ec2-import-volume ec2.raw -f raw -z us-east-1a -b yourbucket -o AKIAJANL -w +YL8t2XaMRU
 
 Create snapshot:
 

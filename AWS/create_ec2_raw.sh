@@ -38,10 +38,11 @@ umount_loop ${DESTDIR}/dev
 cp /etc/resolv.conf ${DESTDIR}/etc/resolv.conf
 # fstab
 echo '# Custom /etc/fstab for FreeBSD VM images' > ${DESTDIR}/etc/fstab
-echo '/dev/gpt/rootfs   /       ufs     rw      1       1'  >> ${DESTDIR}/etc/fstab
+# echo '/dev/gpt/rootfs   /       ufs     rw      1       1'  >> ${DESTDIR}/etc/fstab
+echo '/dev/ada0a / ufs rw 1 1'  >> ${DESTDIR}/etc/fstab
 # rc.conf
 echo 'growfs_enable="YES"' >> ${DESTDIR}/etc/rc.conf
-echo 'ifconfig_DEFAULT="SYNCDHCP"' >> ${DESTDIR}/etc/rc.conf
+echo 'ifconfig_xn0="DHCP"' >> ${DESTDIR}/etc/rc.conf
 echo 'sshd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
 # sysctl.conf
 echo 'debug.trace_on_panic=1' >> ${DESTDIR}/etc/sysctl.conf

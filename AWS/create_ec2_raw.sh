@@ -1,13 +1,31 @@
 #!/bin/sh
 # Create ec2.raw for AMI
 
+umount_loop() {
+    DIR=$1
+    i=0
+    sync
+    while ! umount ${DIR}; do
+        i=$(( $i + 1 ))
+        if [ $i -ge 10 ]; then
+            # This should never happen.  But, it has happened.
+            echo "Cannot umount(8) ${DIR}"
+            echo "Something has gone horribly wrong."
+            return 1
+        fi
+        sleep 1
+    done
+
+    return 0
+}
+
 DESTDIR=/aws/ec2
 VMBASE=${DESTDIR}.img
 mkdir -p ${DESTDIR}
 truncate -s 1536M ${VMBASE}
 mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}
-mount /dev/${mmdev} ${DESTDIR}
+mount /dev/${mddev} ${DESTDIR}
 
 cd /usr/src; make DESTDIR=${DESTDIR} installworld installkernel distribution
 
@@ -37,31 +55,12 @@ echo 'hw.broken_txfifo="1"' >> ${DESTDIR}/boot/loader.conf
 
 # cleanup
 umount_loop ${DESTDIR}
-mdconfi -d -u ${mddev}
+mdconfig -d -u ${mddev}
 
 # create raw
 BOOTFILES=/usr/obj/usr/src/sys/boot
-mkimg -s gpt -f ${VMFORMAT} \
+mkimg -s gpt -f raw \
     -b ${BOOTFILES}/i386/pmbr/pmbr \
     -p freebsd-boot/bootfs:=${BOOTFILES}/i386/gptboot/gptboot \
     -p freebsd-ufs/rootfs:=${VMBASE} \
     -o ${VMBASE}.raw
-
-
-umount_loop() {
-    DIR=$1
-    i=0
-    sync
-    while ! umount ${DIR}; do
-        i=$(( $i + 1 ))
-        if [ $i -ge 10 ]; then
-            # This should never happen.  But, it has happened.
-            echo "Cannot umount(8) ${DIR}"
-            echo "Something has gone horribly wrong."
-            return 1
-        fi
-        sleep 1
-    done
-
-    return 0
-}

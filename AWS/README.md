@@ -53,4 +53,4 @@ Delete volume:
 
 Register AMI:
 
-    # ec2-register -n "FreeBSD test" -d "FreeBSD AWS test" -a x86_64 --virtualization-type hvm --root-device-name /dev/sda1 -b "/dev/sda1=snap-ed9cd29e:10:false:gp2" -b "/dev/sdb=ephemeral0" -b "/dev/sdc=ephemeral1" -b "/dev/sdd=ephemeral2" -b "/dev/sde=ephemeral3"
+    # ec2-register -n "FreeBSD test" -d "FreeBSD AWS test" -a x86_64 --virtualization-type hvm --root-device-name /dev/sda1 -b "/dev/sda1=snap-ed9cd29e:10:true:gp2" -b "/dev/sdb=ephemeral0" -b "/dev/sdc=ephemeral1" -b "/dev/sdd=ephemeral2" -b "/dev/sde=ephemeral3"

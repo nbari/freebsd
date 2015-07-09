@@ -1,5 +1,9 @@
 #!/bin/sh
+# ----------------------------------------------------------------------------
 # Create ec2.raw for AMI
+# ----------------------------------------------------------------------------
+
+DESTDIR=/aws/ec2
 
 umount_loop() {
     DIR=$1
@@ -19,7 +23,6 @@ umount_loop() {
     return 0
 }
 
-DESTDIR=/aws/ec2
 VMBASE=${DESTDIR}.img
 mkdir -p ${DESTDIR}
 truncate -s 1536M ${VMBASE}
@@ -36,18 +39,21 @@ chroot ${DESTDIR} /etc/rc.d/ldconfig forcestart
 umount_loop ${DESTDIR}/dev
 
 cp /etc/resolv.conf ${DESTDIR}/etc/resolv.conf
+
 # fstab
 echo '# Custom /etc/fstab for FreeBSD VM images' > ${DESTDIR}/etc/fstab
-# echo '/dev/gpt/rootfs   /       ufs     rw      1       1'  >> ${DESTDIR}/etc/fstab
-echo '/dev/ada0a / ufs rw 1 1'  >> ${DESTDIR}/etc/fstab
+echo '/dev/gpt/rootfs   /       ufs     rw      1       1'  >> ${DESTDIR}/etc/fstab
+
 # rc.conf
 echo 'growfs_enable="YES"' >> ${DESTDIR}/etc/rc.conf
-echo 'ifconfig_xn0="DHCP"' >> ${DESTDIR}/etc/rc.conf
+echo 'ifconfig_DEFAULT="SYNCDHCP"' >> ${DESTDIR}/etc/rc.conf
 echo 'sshd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
+
 # sysctl.conf
 echo 'debug.trace_on_panic=1' >> ${DESTDIR}/etc/sysctl.conf
 echo 'debug.debugger_on_panic=0' >> ${DESTDIR}/etc/sysctl.conf
 echo 'kern.panic_reboot_wait_time=0' >> ${DESTDIR}/etc/sysctl.conf
+
 # loader.conf
 echo 'autoboot_delay="-1"' >> ${DESTDIR}/boot/loader.conf
 echo 'beastie_disable="YES"' >> ${DESTDIR}/boot/loader.conf
@@ -55,7 +61,9 @@ echo 'console="comconsole"' >> ${DESTDIR}/boot/loader.conf
 echo 'hw.broken_txfifo="1"' >> ${DESTDIR}/boot/loader.conf
 
 # cleanup
-umount_loop ${DESTDIR}
+umount_loop /dev/${mddev}
+rmdir ${DESTDIR}
+tunefs -j enable /dev/${mddev}
 mdconfig -d -u ${mddev}
 
 # create raw

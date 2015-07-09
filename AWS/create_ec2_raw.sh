@@ -111,7 +111,7 @@ Xload_rc_config $name
 Xrun_rc_command "$1"
 EC2_FETCHKEY
 
-chmod +x ${DESTDIR}/usr/local/etc/rc.d/ec2_fetchkey
+chmod 0555 ${DESTDIR}/usr/local/etc/rc.d/ec2_fetchkey
 
 # fstab
 echo '/dev/gpt/rootfs   /       ufs     rw      1       1'  > ${DESTDIR}/etc/fstab
@@ -132,6 +132,9 @@ echo 'autoboot_delay="-1"' >> ${DESTDIR}/boot/loader.conf
 echo 'beastie_disable="YES"' >> ${DESTDIR}/boot/loader.conf
 echo 'console="comconsole"' >> ${DESTDIR}/boot/loader.conf
 echo 'hw.broken_txfifo="1"' >> ${DESTDIR}/boot/loader.conf
+
+# firstboot
+touch ${DESTDIR}/firstboot
 
 # cleanup
 umount_loop /dev/${mddev}

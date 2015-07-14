@@ -106,6 +106,9 @@ options 	SC_PIXEL_MODE		# add support for the raster text mode
 # Serial (COM) ports
 device		uart			# Generic UART driver
 
+# PCI Ethernet NICs.
+device          em          # Intel PRO/1000 Gigabit Ethernet Family
+
 # Pseudo devices.
 device		loop			# Network loopback
 device		random			# Entropy device

@@ -162,3 +162,9 @@ Jail with ZFS:
         ip4.addr = 10.1.2.4;
         exec.poststart = "cpuset -c -l1-2 -j 101";
     }
+
+
+
+Default user:
+
+    pw useradd devops -m -s /bin/csh -G wheel

@@ -1,7 +1,8 @@
 #!/bin/sh
 # ----------------------------------------------------------------------------
-# Create ec2.raw for AMI
+# Create ec2.raw for amazon EC2 AMI
 # ----------------------------------------------------------------------------
+START=$(date +%s)
 
 DESTDIR=/aws/ec2
 
@@ -43,12 +44,12 @@ umount_loop ${DESTDIR}/dev
 
 cp /etc/resolv.conf ${DESTDIR}/etc/resolv.conf
 
-# nbari
-NBARI="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAgEArgnvK7DB4U2ZRUp/jAK+a2bz7Brni5WeUcdK9p8jATj5/zUjKdPLwPnl5DBWSLbKbuoL2S1ydyWQOzvC9pWdDXoEugkEORTwQamQprXcn3Y563fi1zmHJSVYEgphG/W2QUsyBl6TtMM7+8bQ15lHLeOoZDSnD5U0KvQpWHyvxO6zgzeCtPBQ0wS2Qli7Y4FltHx/sVhBUEUEIK/hWJhl3Kie3iGX8pt7x2/CPuhq9/5bEN3qzs9cMiEWtUnLYV09NMF16YngGFXRvIm1PzC4V2/qDJDGU3rZ8gAbwz+WoIJV1J9bOEqZLzoJKCvNGZcTCZ3ncwWaGkA2bGPoO1DfyP0KvgQwMPs8n0Ih8EG5pNeWjFAzuYV0d4sSw5gsDqeX9ym41t4cKoNgIzPbCDGD1kA7ouSQcXsBtZW0YCaG8ibV5yuacEeeL4vGDRs8EZ6pTAnb2CAerv0JGIwrOuDAGbRRKGssbIOvV/GTgSr8uA8QuiZVoBxSJFN7s3q30bR6Y0PAUulV+zEt2n6PL7ovcrm63ibe2G1hUQ8EcPbW3KpQfj28XpGwDS4X6FYEn0MO+F5iOcqhOn6fQWbD/GA5b8umUskJbJi8m28xU+J49f+TnHH+OX++MNdiPuiet5QVklJ4whazKAd0BPljZVaaU3J+1rI5/Hj1rnJcCUYTm/M="
-chroot ${DESTDIR} /usr/sbin/pw useradd nbari -m -G wheel
-chroot ${DESTDIR} mkdir -m 700 ~nbari/.ssh
-echo ${NBARI} > ${DESTDIR}/home/nbari/.ssh/authorized_keys
-chroot ${DESTDIR} chown -R nbari ~nbari/.ssh
+# devops user
+SSHKEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCu3MS7nQxGaOZJiU3Nq65JXRuggfRSPuhwqOD0r5Dcs2E9swP1enZVvHsadED0v+rOBmXPB5a9IJuTg71wB/rCmDLZ+UxOyA8DPfM/1wexM4qv7AI38lz1qb/pNePL/AcsHz5hxKJcYGdPY/Dpta0r2tcu9zp1540vfjfjFUftxoJ49fJ4UM5pQUBerhf1Vorl6uXt3wdJ3kZ45WU1lDRp5Nhi2BwngGa51kAylnO/IJkfYMj+nU7VgiMpNUj2KGbZRmhtKyPzKo8D2m4a9fS/vwjoZpG3Z5uB/HauzXz1vvWEG1EKSviYmd1u5kjHYPbjTjCtETfm6gWy8uRSQJP9ndYgp10z8qwlhTp3To0oOlkMKjzYNfMhit4/xNrusiD7yBJPtYf90ErPVnGmQhbeleSeAaoW26+5r+xJZPVzcESM1pt7dhqWMo6bCuwc7blPO0QiEwii2UBVWqFB7oHJEnQTsJ9exvfxDsFirVARFXjzocK1c6txF0zJ+hLbPuzTkJ/9iS9YlUBmQNWEDIAUHEpFievem/28bcRIkrdFQEku1L3PDq7EEUK3jkLl7Qo3/ONkZ+hBjriZ5HrmtOzeel6n8Qcq4b2wepWX+FgfpjP18c9peS9Dk2nvJ1tDmZifNrHreH6O+mvQDOxRp51B835Mn8L+/4NSww4tQbP0Q=="
+chroot ${DESTDIR} /usr/sbin/pw useradd devops -m -G wheel -s /bin/csh
+chroot ${DESTDIR} mkdir -m 700 ~devops/.ssh
+echo ${SSHKEY} > ${DESTDIR}/home/devops/.ssh/authorized_keys
+chroot ${DESTDIR} chown -R devops ~devops/.ssh
 
 # ec2-user
 chroot ${DESTDIR} mkdir -p /usr/local/etc/rc.d
@@ -149,3 +150,10 @@ mkimg -s gpt -f raw \
     -p freebsd-boot/bootfs:=${BOOTFILES}/i386/gptboot/gptboot \
     -p freebsd-ufs/rootfs:=${VMBASE} \
     -o ${DESTDIR}.raw
+
+END=$(date +%s)
+DIFF=$(echo "$END - $START" | bc)
+
+echo ----------------------------------------------------------------------------
+echo "build in $DIFF seconds."
+echo ----------------------------------------------------------------------------

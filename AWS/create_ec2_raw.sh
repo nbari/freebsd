@@ -44,7 +44,7 @@ umount_loop ${DESTDIR}/dev
 
 cp /etc/resolv.conf ${DESTDIR}/etc/resolv.conf
 
-# ec2-user
+# devops-user
 chroot ${DESTDIR} mkdir -p /usr/local/etc/rc.d
 sed 's/^X//' >${DESTDIR}/usr/local/etc/rc.d/ec2_fetchkey << 'EC2_FETCHKEY'
 X#!/bin/sh
@@ -59,7 +59,7 @@ X# when the system first boots.
 X: ${ec2_fetchkey_enable=NO}
 X
 X# Set ec2_fetchkey_user to change the user for which SSH keys are provided.
-X: ${ec2_fetchkey_user=ec2-user}
+X: ${ec2_fetchkey_user=devops}
 X
 X. /etc/rc.subr
 X

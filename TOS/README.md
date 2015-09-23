@@ -37,3 +37,7 @@ Some network cards implement TSO generically enough that it can be used for
 offloading fragmentation of other transport layer protocols, or by doing IP
 fragmentation for protocols that don't support fragmentation by themselves, such
 as UDP.
+
+https://en.wikipedia.org/wiki/Large_segment_offload
+
+http://cloudnull.io/2012/07/xenserver-network-tuning/

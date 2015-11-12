@@ -138,3 +138,12 @@ this is the basic conf:
         }
 
     }
+
+make.conf
+=========
+
+Custom make.conf (``/usr/local/etc/poudriere.d/make.conf``):
+
+    NO_X=true
+    WITHOUT="X11"
+    OPTIONS_UNSET=X11 GUI CUPS DOCS EXAMPLES

@@ -121,6 +121,7 @@ To activate the repository on the client create the file ``poudriere.conf``:
       signature_type: "pubkey",
       pubkey: "/usr/local/etc/ssl/certs/pkg.cert",
       enabled: yes
+      priority: 1
     }
 
 > You can use any name for this file, providing that it has the .conf suffix

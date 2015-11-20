@@ -11,12 +11,12 @@ DHCP / alias setup on ``/etc/rc.conf``:
     ifconfig_xn1_alias0="inet 10.0.10.X netmask 255.255.255.255"
 
 
-Add to ``/etc/rc.local``  for adding the route:
+Append to  ``/etc/rc.local``  for adding the route:
 
     setfib 1 route add default 10.0.X.1
 
 
-``/etc/sysctl.conf`` must contain:
+Append to  ``/etc/sysctl.conf`` must contain:
 
     net.add_addr_allfibs=0
 

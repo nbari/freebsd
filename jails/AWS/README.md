@@ -1,22 +1,28 @@
 FreeBSD Jails on AWS
 ====================
 
-4 IP's, 2 ENI, 1 t2.micro (multiple routing tables / Asymmetric routing):
+4 IP's, 2 ENI, 1 t2.micro (multiple routing tables / Asymmetric routing)
 
-DHCP / alias setup on ``/etc/rc.conf``:
+If not using a custom kernel, probably this will be needed in ``/boot/loader.conf``:
+
+    net.fibs=2
+
+# /etc/rc.conf
+DHCP / alias setup:
 
     ifconfig_xn0="SYNCDHCP fib 0"
     ifconfig_xn0_alias0="inet 10.0.10.X netmask 255.255.255.255"
     ifconfig_xn1="SYNCDHCP fib 1"
     ifconfig_xn1_alias0="inet 10.0.10.X netmask 255.255.255.255"
 
+Add default gateway on fib 1:
 
-Append to  ``/etc/rc.local``  for adding the route:
+    static_routes="jail"
+    route_jail="add default 10.0.X.1 -fib1"
 
-    setfib 1 route add default 10.0.X.1
+ # /etc/sysctl.conf
 
-
-Append to  ``/etc/sysctl.conf`` must contain:
+ To avoid adding "services" to the default route 0:
 
     net.add_addr_allfibs=0
 

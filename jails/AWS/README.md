@@ -20,7 +20,7 @@ Add default gateway on fib 1:
     static_routes="jail"
     route_jail="add default 10.0.X.1 -fib1"
 
- # /etc/sysctl.conf
+# /etc/sysctl.conf
 
  To avoid adding "services" to the default route 0:
 

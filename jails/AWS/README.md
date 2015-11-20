@@ -15,10 +15,11 @@ DHCP / alias setup:
     ifconfig_xn1="SYNCDHCP fib 1"
     ifconfig_xn1_alias0="inet 10.0.10.X netmask 255.255.255.255"
 
+# /etc/rc.local
+
 Add default gateway on fib 1:
 
-    static_routes="jail"
-    route_jail="add default 10.0.X.1 -fib1"
+    setfib 1 route add default 10.0.X.1
 
 # /etc/sysctl.conf
 

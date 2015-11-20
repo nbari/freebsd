@@ -68,6 +68,6 @@ Please note if you use **jexec** to enter the jail you will be tricked into
 executing everything with the wrong fib!
 When the jail is launched and things automatically start they will use the
 correct fib, but if you jexec into the jail and run things from the shell it
-will not use the correct fib unless you setfib -F1 jexec when entering the jail!
+will not use the correct fib unless you ``setfib -F1 jexec`` when entering the jail!
 
 When in doubt, check your fib with **sysctl net.my_fibnum**

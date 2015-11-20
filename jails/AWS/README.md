@@ -1,7 +1,9 @@
 FreeBSD Jails on AWS
 ====================
 
-``rc.conf`` for 4 IP's, 2 ENI, 1 t2.micro (Asymmetric routing):
+4 IP's, 2 ENI, 1 t2.micro (Asymmetric routing):
+
+DHCP / alias setup on ``/etc/rc.conf``:
 
     ifconfig_xn0="SYNCDHCP fib 0"
     ifconfig_xn0_alias0="inet 10.0.10.X netmask 255.255.255.255"

@@ -32,6 +32,10 @@ Build the world with your custom configuration (see the [src-jail.conf](src-jail
 
     # make world DESTDIR=$D SRCCONF=/etc/src-jail.conf
 
+If you have already have compiled the world you can just install it:
+
+    # make installworld DESTDIR=$D SRCCONF=/etc/src-jail.conf
+
 Now is a good time to go pee or getting a coffee since this will take awhile,
 basically this will create a new user land, but is compiling everything based on
 your architecture and kernel.

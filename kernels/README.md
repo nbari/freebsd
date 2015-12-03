@@ -46,3 +46,30 @@ And later only type:
 
 
 Reboot and hopefully your server will be up and running using your custom kernel.
+
+
+
+Full update (fast way)
+======================
+
+
+1. ``cd /usr/src``
+2. ``make buildworld``  (if have multiple cores you can try ``make -j40 buildworld``)
+3. ``make kernel``
+4. ``make installworld`` (skip the mergemaster -p)
+5. ``yes | make delete-old``
+6. ``cp -R /etc /etc.old && cd /usr/src && make distribution DESTDIR=/``
+7. ``cd /etc.old && mv fstab resolv.conf rc.conf group passwd master.passwd /etc && pwd_mkdb /etc/master.passwd``
+8. ``reboot``
+9. ``yes | make delete-old-libs``
+
+
+Using mergemaster
+-----------------
+
+After step 3 (before ``make installworld``) do:
+``sh
+mergemaster -p
+make installworld
+mergemaster -FiU
+``

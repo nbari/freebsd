@@ -32,6 +32,19 @@ Build the world with your custom configuration (see the [src-jail.conf](src-jail
 
     # make world DESTDIR=$D SRCCONF=/etc/src-jail.conf
 
+if have multiple cores give a try to something like:
+
+    # make -j40 world DESTDIR=$D SRCCONF=/etc/src-jail.conf
+
+on AWS EC2 instance c3.8xlarge takes less than 10 min:
+```sh
+--------------------------------------------------------------
+>>> make world completed on Thu Dec  3 11:23:27 UTC 2015
+                   (started Thu Dec  3 11:14:03 UTC 2015)
+--------------------------------------------------------------
+```
+
+
 If you have already have compiled the world you can just install it:
 
     # make installworld DESTDIR=$D SRCCONF=/etc/src-jail.conf

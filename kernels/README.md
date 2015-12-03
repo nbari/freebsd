@@ -68,8 +68,8 @@ Using mergemaster
 -----------------
 
 After step 3 (before ``make installworld``) do:
-``sh
+```sh
 mergemaster -p
 make installworld
 mergemaster -FiU
-``
+```

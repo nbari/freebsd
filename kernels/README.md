@@ -55,13 +55,15 @@ Full update (fast way)
 
 1. ``cd /usr/src``
 2. ``make buildworld``  (if have multiple cores you can try ``make -j40 buildworld``)
-3. ``make kernel``
+3. ``make kernel`` (or ``make -j40 kernel``)
 4. ``make installworld`` (skip the mergemaster -p)
 5. ``yes | make delete-old``
 6. ``cp -R /etc /etc.old && cd /usr/src && make distribution DESTDIR=/``
 7. ``cd /etc.old && mv fstab resolv.conf rc.conf group passwd master.passwd /etc && pwd_mkdb /etc/master.passwd``
 8. ``reboot``
 9. ``yes | make delete-old-libs``
+
+> -j40 means to have up to 40 proccess running at any one time. (-j will cause ``make`` to spawn several simultaneous processes)
 
 
 Using mergemaster

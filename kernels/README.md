@@ -73,3 +73,12 @@ mergemaster -p
 make installworld
 mergemaster -FiU
 ```
+
+
+/usr/obj
+--------
+
+Save space removing the ``/usr/obj``:
+
+     chflags -R noschg /usr/obj/*
+     rm -rf /usr/obj

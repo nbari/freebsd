@@ -84,3 +84,9 @@ Save space removing the ``/usr/obj``:
 
      chflags -R noschg /usr/obj/*
      rm -rf /usr/obj
+
+
+sysctl kern.conftxt
+===================
+
+Get kernel details

@@ -185,3 +185,52 @@ Jail with ZFS:
 Default user:
 
     pw useradd devops -m -s /bin/csh -G wheel
+
+
+
+
+VNET
+====
+
+rc.conf:
+
+```sh
+cloned_interfaces="bridge0 epair0 epair1 epair2"
+autobridge_interfaces="bridge0"
+autobirdge_bridge0="xn0 epair0a epair1a epair2a"
+ifconfig_bridge0="up"
+ifconfig_epair0a="up"
+ifconfig_epair1a="up"
+ifconfig_epair2a="up"
+```
+
+jail.conf:
+
+```sh
+exec.start = "/bin/sh /etc/rc.0";
+exec.stop = "/bin/sh /etc/rc.shutdown";
+exec.clean;
+mount.devfs;
+allow.raw_sockets;
+securelevel =3;
+host.hostname = "$name.jail";
+path="/arena/jails/$name";
+
+jail1 {
+    jid = 1;
+    vnet;
+    vnet.interface = epair0b;
+}
+```
+
+jail ``/etc/rc.0``:
+
+
+```sh
+#!/bin/sh
+
+ifconfig lo0 127.0.0.1/8 up
+sh /etc/rc
+
+dhclient epair0b
+```

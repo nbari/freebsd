@@ -197,7 +197,7 @@ rc.conf:
 ```sh
 cloned_interfaces="bridge0 epair0 epair1 epair2"
 autobridge_interfaces="bridge0"
-autobirdge_bridge0="xn0 epair0a epair1a epair2a"
+autobridge_bridge0="xn0 epair0a epair1a epair2a"
 ifconfig_bridge0="up"
 ifconfig_epair0a="up"
 ifconfig_epair1a="up"

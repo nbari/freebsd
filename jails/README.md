@@ -234,3 +234,24 @@ sh /etc/rc
 
 dhclient epair0b
 ```
+
+
+Can't find free bpf
+===================
+
+To solve, add to ``/etc/defaults/devfs.rules``:
+
+```sh
+# Devices usually found in a jail.
+#
+[devfsrules_jail=4]
+add include $devfsrules_hide_all
+add include $devfsrules_unhide_basic
+add include $devfsrules_unhide_login
+add path zfs unhide
+add path 'bpf*' unhide
+```
+
+To allow any user to open ports < 1024:
+
+    net.inet.ip.portrange.reservedhigh=0

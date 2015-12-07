@@ -239,7 +239,7 @@ dhclient epair0b
 Can't find free bpf
 ===================
 
-To solve, add to ``/etc/defaults/devfs.rules``:
+To solve, add ``add path 'bpf*' unhide`` to ``/etc/defaults/devfs.rules``:
 
 ```sh
 # Devices usually found in a jail.

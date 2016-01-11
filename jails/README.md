@@ -32,6 +32,19 @@ Build the world with your custom configuration (see the [src-jail.conf](src-jail
 
     # make world DESTDIR=$D SRCCONF=/etc/src-jail.conf
 
+if have multiple cores give a try to something like:
+
+    # make -j40 world DESTDIR=$D SRCCONF=/etc/src-jail.conf
+
+on AWS EC2 instance c3.8xlarge takes less than 10 min:
+```sh
+--------------------------------------------------------------
+>>> make world completed on Thu Dec  3 11:23:27 UTC 2015
+                   (started Thu Dec  3 11:14:03 UTC 2015)
+--------------------------------------------------------------
+```
+
+
 If you have already have compiled the world you can just install it:
 
     # make installworld DESTDIR=$D SRCCONF=/etc/src-jail.conf
@@ -172,3 +185,73 @@ Jail with ZFS:
 Default user:
 
     pw useradd devops -m -s /bin/csh -G wheel
+
+
+
+
+VNET
+====
+
+rc.conf:
+
+```sh
+cloned_interfaces="bridge0 epair0 epair1 epair2"
+autobridge_interfaces="bridge0"
+autobridge_bridge0="xn0 epair0a epair1a epair2a"
+ifconfig_bridge0="up"
+ifconfig_epair0a="up"
+ifconfig_epair1a="up"
+ifconfig_epair2a="up"
+```
+
+jail.conf:
+
+```sh
+exec.start = "/bin/sh /etc/rc.0";
+exec.stop = "/bin/sh /etc/rc.shutdown";
+exec.clean;
+mount.devfs;
+allow.raw_sockets;
+securelevel =3;
+host.hostname = "$name.jail";
+path="/arena/jails/$name";
+
+jail1 {
+    jid = 1;
+    vnet;
+    vnet.interface = epair0b;
+}
+```
+
+jail ``/etc/rc.0``:
+
+
+```sh
+#!/bin/sh
+
+ifconfig lo0 127.0.0.1/8 up
+sh /etc/rc
+
+dhclient epair0b
+```
+
+
+Can't find free bpf
+===================
+
+To solve, add ``add path 'bpf*' unhide`` to ``/etc/defaults/devfs.rules``:
+
+```sh
+# Devices usually found in a jail.
+#
+[devfsrules_jail=4]
+add include $devfsrules_hide_all
+add include $devfsrules_unhide_basic
+add include $devfsrules_unhide_login
+add path zfs unhide
+add path 'bpf*' unhide
+```
+
+To allow any user to open ports < 1024:
+
+    net.inet.ip.portrange.reservedhigh=0

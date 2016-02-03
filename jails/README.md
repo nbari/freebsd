@@ -255,3 +255,12 @@ add path 'bpf*' unhide
 To allow any user to open ports < 1024:
 
     net.inet.ip.portrange.reservedhigh=0
+
+
+Kill the jail
+=============
+
+Starting jails: cannot start jail  "jail3":
+jail: jail3: jail 3 already exists
+
+    pkill -j 3

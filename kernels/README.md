@@ -97,4 +97,4 @@ firstboot & firstboot-reboot
 
 To do some configuration at firstboot do a:
 
-    touch /firstboot && touch /firstboo-reboot
+    touch /firstboot && touch /firstboot-reboot

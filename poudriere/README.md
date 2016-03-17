@@ -165,3 +165,7 @@ Custom ports
 Create a ports tree with the name "custom":
 
     poudriere ports -c -p custom
+
+Buld custom package:
+
+    poudriere bulk -j 10amd64 -p custom sysutils/epazote

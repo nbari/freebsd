@@ -1,7 +1,6 @@
 poudriere
 =========
 
-
 What is poudriere?
 ------------------
 
@@ -158,3 +157,11 @@ IF pkg start behaving like in a loop, try:
     pkg install -r poudriere pkg
 
 where poudriere is one of the servers/Repositories listed on the output of ``pkg -vv``
+
+
+Custom ports
+=============
+
+Create a ports tree with the name "custom":
+
+    poudriere ports -c -p custom

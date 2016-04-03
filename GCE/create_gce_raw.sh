@@ -53,7 +53,7 @@ umount_loop ${WRKDIR}/dev
 
 # install curl
 echo " Installing curl"
-chroot ${WRKDIR} export ASSUME_ALWAYS_YES=yes && pkg install -y curl
+chroot ${WRKDIR} /usr/bin/env ASSUME_ALWAYS_YES=yes pkg install -y curl
 
 # devops-user
 chroot ${WRKDIR} mkdir -p /usr/local/etc/rc.d

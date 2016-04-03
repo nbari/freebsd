@@ -52,7 +52,7 @@ chroot ${WRKDIR} /etc/rc.d/ldconfig forcestart
 umount_loop ${WRKDIR}/dev
 
 # install curl
-chroot ${WRKDIR} yes | pkg install -y curl
+chroot ${WRKDIR} /usr/bin/env ASSUME_ALWAYS_YES=1 && pkg install -y curl
 
 # devops-user
 chroot ${WRKDIR} mkdir -p /usr/local/etc/rc.d

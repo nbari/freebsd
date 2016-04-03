@@ -164,7 +164,7 @@ BOOTFILES=/usr/obj/usr/src/sys/boot
 mkimg -s gpt -f raw \
     -b ${BOOTFILES}/i386/pmbr/pmbr \
     -p freebsd-boot/bootfs:=${BOOTFILES}/i386/gptboot/gptboot \
-    -p freebsd-swap/swapfs:=${SWAPSIZE} \
+    -p freebsd-swap/swapfs::${SWAPSIZE} \
     -p freebsd-ufs/rootfs:=${VMBASE} \
     -o ${DESTDIR}.raw
 

@@ -4,11 +4,17 @@
 # ----------------------------------------------------------------------------
 START=$(date +%s)
 
-DESTDIR=/gce/disk
+# ----------------------------------------------------------------------------
+# options
+# ----------------------------------------------------------------------------
+OUTDIR=/gce
+WRKDIR=${OUTDIR}/disk
 SWAPSIZE=1G
 VMSIZE=10g
-# ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
+# no need to change below this line
+# ----------------------------------------------------------------------------
 umount_loop() {
     DIR=$1
     i=0
@@ -27,30 +33,30 @@ umount_loop() {
     return 0
 }
 
-VMBASE=${DESTDIR}.img
-mkdir -p ${DESTDIR}
+VMBASE=${WRKDIR}.img
+mkdir -p ${WRKDIR}
 truncate -s ${VMSIZE} ${VMBASE}
 mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}
-mount /dev/${mddev} ${DESTDIR}
+mount /dev/${mddev} ${WRKDIR}
 
 cd /usr/src
-make DESTDIR=${DESTDIR} installworld && make DESTDIR=${DESTDIR} installkernel
-# make DESTDIR=${DESTDIR} world && make DESTDIR=${DESTDIR} kernel
-make DESTDIR=${DESTDIR} distribution
+make WRKDIR=${WRKDIR} installworld && make WRKDIR=${WRKDIR} installkernel
+# make WRKDIR=${WRKDIR} world && make WRKDIR=${WRKDIR} kernel
+make WRKDIR=${WRKDIR} distribution
 
-mkdir -p ${DESTDIR}/dev
-mount -t devfs devfs ${DESTDIR}/dev
-chroot ${DESTDIR} /usr/bin/newaliases
-chroot ${DESTDIR} /etc/rc.d/ldconfig forcestart
-umount_loop ${DESTDIR}/dev
+mkdir -p ${WRKDIR}/dev
+mount -t devfs devfs ${WRKDIR}/dev
+chroot ${WRKDIR} /usr/bin/newaliases
+chroot ${WRKDIR} /etc/rc.d/ldconfig forcestart
+umount_loop ${WRKDIR}/dev
 
 # install curl
-chroot ${DESTDIR} yes | pkg install -y curl
+chroot ${WRKDIR} yes | pkg install -y curl
 
 # devops-user
-chroot ${DESTDIR} mkdir -p /usr/local/etc/rc.d
-sed 's/^X//' >${DESTDIR}/usr/local/etc/rc.d/gce_metadata << 'GCE_METADATA'
+chroot ${WRKDIR} mkdir -p /usr/local/etc/rc.d
+sed 's/^X//' >${WRKDIR}/usr/local/etc/rc.d/gce_metadata << 'GCE_METADATA'
 X#!/bin/sh
 X
 X# KEYWORD: firstboot
@@ -111,43 +117,43 @@ Xload_rc_config $name
 Xrun_rc_command "$1"
 GCE_METADATA
 
-chmod 0555 ${DESTDIR}/usr/local/etc/rc.d/gce_metadata
+chmod 0555 ${WRKDIR}/usr/local/etc/rc.d/gce_metadata
 
 # fstab
-cat << EOF > ${DESTDIR}/etc/fstab
+cat << EOF > ${WRKDIR}/etc/fstab
 /dev/gpt/rootfs   /       ufs     rw      1       1
 /dev/gpt/swapfs   none    swap    sw      0       0
 EOF
 
 # rc.conf
-echo 'gce_metadata_enable="YES"' > ${DESTDIR}/etc/rc.conf
-echo 'growfs_enable="YES"' >> ${DESTDIR}/etc/rc.conf
-echo 'ifconfig_DEFAULT="SYNCDHCP mtu 1460"' >> ${DESTDIR}/etc/rc.conf
-echo 'sshd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
-echo 'ntpd_sync_on_start="YES"' >> ${DESTDIR}/etc/rc.conf
-echo 'ntpd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
+echo 'gce_metadata_enable="YES"' > ${WRKDIR}/etc/rc.conf
+echo 'growfs_enable="YES"' >> ${WRKDIR}/etc/rc.conf
+echo 'ifconfig_DEFAULT="SYNCDHCP mtu 1460"' >> ${WRKDIR}/etc/rc.conf
+echo 'sshd_enable="YES"' >> ${WRKDIR}/etc/rc.conf
+echo 'ntpd_sync_on_start="YES"' >> ${WRKDIR}/etc/rc.conf
+echo 'ntpd_enable="YES"' >> ${WRKDIR}/etc/rc.conf
 
 # sysctl.conf
-echo 'debug.trace_on_panic=1' >> ${DESTDIR}/etc/sysctl.conf
-echo 'debug.debugger_on_panic=0' >> ${DESTDIR}/etc/sysctl.conf
-echo 'kern.panic_reboot_wait_time=0' >> ${DESTDIR}/etc/sysctl.conf
-echo 'net.inet.icmp.drop_redirect=1' >> ${DESTDIR}/etc/sysctl.conf
-echo 'net.inet.ip.redirect=0' >> ${DESTDIR}/etc/sysctl.conf
-echo 'net.inet.tcp.blackhole=2' >> ${DESTDIR}/etc/sysctl.conf
-echo 'net.inet.udp.blackhole=1' >> ${DESTDIR}/etc/sysctl.conf
-echo 'kern.ipc.somaxconn=1024' >> ${DESTDIR}/etc/sysctl.conf
+echo 'debug.trace_on_panic=1' >> ${WRKDIR}/etc/sysctl.conf
+echo 'debug.debugger_on_panic=0' >> ${WRKDIR}/etc/sysctl.conf
+echo 'kern.panic_reboot_wait_time=0' >> ${WRKDIR}/etc/sysctl.conf
+echo 'net.inet.icmp.drop_redirect=1' >> ${WRKDIR}/etc/sysctl.conf
+echo 'net.inet.ip.redirect=0' >> ${WRKDIR}/etc/sysctl.conf
+echo 'net.inet.tcp.blackhole=2' >> ${WRKDIR}/etc/sysctl.conf
+echo 'net.inet.udp.blackhole=1' >> ${WRKDIR}/etc/sysctl.conf
+echo 'kern.ipc.somaxconn=1024' >> ${WRKDIR}/etc/sysctl.conf
 
 # loader.conf
-echo 'autoboot_delay="-1"' >> ${DESTDIR}/boot/loader.conf
-echo 'beastie_disable="YES"' >> ${DESTDIR}/boot/loader.conf
-echo 'loader_logo="none"' >> ${DESTDIR}/boot/loader.conf
-echo 'console="comconsole"' >> ${DESTDIR}/boot/loader.conf
-echo 'hw.broken_txfifo="1"' >> ${DESTDIR}/boot/loader.conf
-echo 'hw.memtest.tests="0"' >> ${DESTDIR}/boot/loader.conf
-echo 'hw.vtnet.mq_disable="1"' >> ${DESTDIR}/boot/loader.conf
+echo 'autoboot_delay="-1"' >> ${WRKDIR}/boot/loader.conf
+echo 'beastie_disable="YES"' >> ${WRKDIR}/boot/loader.conf
+echo 'loader_logo="none"' >> ${WRKDIR}/boot/loader.conf
+echo 'console="comconsole"' >> ${WRKDIR}/boot/loader.conf
+echo 'hw.broken_txfifo="1"' >> ${WRKDIR}/boot/loader.conf
+echo 'hw.memtest.tests="0"' >> ${WRKDIR}/boot/loader.conf
+echo 'hw.vtnet.mq_disable="1"' >> ${WRKDIR}/boot/loader.conf
 
 # firstboot
-touch ${DESTDIR}/firstboot
+touch ${WRKDIR}/firstboot
 
 cat << EOF >> etc/syslog.conf
 *.err;kern.warning;auth.notice;mail.crit                /dev/console
@@ -155,7 +161,7 @@ EOF
 
 # cleanup
 umount_loop /dev/${mddev}
-rmdir ${DESTDIR}
+rmdir ${WRKDIR}
 tunefs -j enable /dev/${mddev}
 mdconfig -d -u ${mddev}
 
@@ -166,10 +172,11 @@ mkimg -s gpt -f raw \
     -p freebsd-boot/bootfs:=${BOOTFILES}/i386/gptboot/gptboot \
     -p freebsd-swap/swapfs::${SWAPSIZE} \
     -p freebsd-ufs/rootfs:=${VMBASE} \
-    -o ${DESTDIR}.raw
+    -o ${WRKDIR}.raw
 
 echo "  Creating image tar"
-tar --format=gnutar -Szcf ${DESTDIR}.tar.gz ${DESTDIR}.raw
+cd ${OUTDIR}
+tar --format=gnutar -Szcf disk.tar.gz disk.raw
 
 END=$(date +%s)
 DIFF=$(echo "$END - $START" | bc)

@@ -41,9 +41,9 @@ newfs /dev/${mddev}
 mount /dev/${mddev} ${WRKDIR}
 
 cd /usr/src
-make WRKDIR=${WRKDIR} installworld && make WRKDIR=${WRKDIR} installkernel
-# make WRKDIR=${WRKDIR} world && make WRKDIR=${WRKDIR} kernel
-make WRKDIR=${WRKDIR} distribution
+make DESTDIR=${WRKDIR} installworld && make DESTDIR=${WRKDIR} installkernel
+# make DESTDIR=${WRKDIR} world && make DESTDIR=${WRKDIR} kernel
+make DESTDIR=${WRKDIR} distribution
 
 mkdir -p ${WRKDIR}/dev
 mount -t devfs devfs ${WRKDIR}/dev

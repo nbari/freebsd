@@ -51,9 +51,13 @@ chroot ${WRKDIR} /usr/bin/newaliases
 chroot ${WRKDIR} /etc/rc.d/ldconfig forcestart
 umount_loop ${WRKDIR}/dev
 
+cp /etc/resolv.conf ${WRKDIR}/etc/resolv.conf
+
 # install curl
 echo " Installing curl"
-chroot ${WRKDIR} /usr/bin/env ASSUME_ALWAYS_YES=yes pkg install -y curl
+yes | chroot ${WRKDIR} /usr/bin/env ASSUME_ALWAYS_YES=yes pkg install -qy curl > /dev/null 2>&1
+chroot ${WRKDIR} /usr/bin/env ASSUME_ALWAYS_YES=yes pkg clean -qya > /dev/null 2>&1
+rm -rf ${WRKDIR}/var/db/pkg/repo*
 
 # devops-user
 chroot ${WRKDIR} mkdir -p /usr/local/etc/rc.d
@@ -126,6 +130,25 @@ cat << EOF > ${WRKDIR}/etc/fstab
 /dev/gpt/swapfs   none    swap    sw      0       0
 EOF
 
+cat << EOF >> ${WRKDIR}/etc/hosts
+169.254.169.254 metadata.google.internal metadata
+EOF
+
+cat << EOF > ${WRKDIR}/etc/ntp.conf
+server metadata.google.internal iburst
+
+restrict default kod nomodify notrap nopeer noquery
+restrict -6 default kod nomodify notrap nopeer noquery
+
+restrict 127.0.0.1
+restrict -6 ::1
+restrict 127.127.1.0
+EOF
+
+cat << EOF >> etc/syslog.conf
+*.err;kern.warning;auth.notice;mail.crit                /dev/console
+EOF
+
 # rc.conf
 echo 'gce_metadata_enable="YES"' > ${WRKDIR}/etc/rc.conf
 echo 'growfs_enable="YES"' >> ${WRKDIR}/etc/rc.conf
@@ -155,10 +178,6 @@ echo 'hw.vtnet.mq_disable="1"' >> ${WRKDIR}/boot/loader.conf
 
 # firstboot
 touch ${WRKDIR}/firstboot
-
-cat << EOF >> etc/syslog.conf
-*.err;kern.warning;auth.notice;mail.crit                /dev/console
-EOF
 
 # cleanup
 umount_loop /dev/${mddev}

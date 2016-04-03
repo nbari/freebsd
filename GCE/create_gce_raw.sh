@@ -169,7 +169,7 @@ mkimg -s gpt -f raw \
     -o ${DESTDIR}.raw
 
 echo "  Creating image tar"
-tar --format=gnutar -Szcf ${DESTDIR}.tar.gz disk.raw
+tar --format=gnutar -Szcf ${DESTDIR}.tar.gz ${DESTDIR}.raw
 
 END=$(date +%s)
 DIFF=$(echo "$END - $START" | bc)

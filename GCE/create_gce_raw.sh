@@ -1,10 +1,12 @@
 #!/bin/sh
 # ----------------------------------------------------------------------------
-# Create gce.raw for Google Compute Engine
+# Create disk.raw, disk.tar.gz for Google Compute Engine
 # ----------------------------------------------------------------------------
 START=$(date +%s)
 
-DESTDIR=/images/gce
+DESTDIR=/gce/disk
+SWAPSIZE=1G
+VMSIZE=10g
 # ----------------------------------------------------------------------------
 
 umount_loop() {
@@ -27,8 +29,7 @@ umount_loop() {
 
 VMBASE=${DESTDIR}.img
 mkdir -p ${DESTDIR}
-# truncate -s 1536M ${VMBASE}
-truncate -s 512M ${VMBASE}
+truncate -s ${VMSIZE} ${VMBASE}
 mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}
 mount /dev/${mddev} ${DESTDIR}
@@ -44,7 +45,8 @@ chroot ${DESTDIR} /usr/bin/newaliases
 chroot ${DESTDIR} /etc/rc.d/ldconfig forcestart
 umount_loop ${DESTDIR}/dev
 
-cp /etc/resolv.conf ${DESTDIR}/etc/resolv.conf
+# install curl
+chroot ${DESTDIR} yes | pkg install -y curl
 
 # devops-user
 chroot ${DESTDIR} mkdir -p /usr/local/etc/rc.d
@@ -70,7 +72,7 @@ Xrcvar=gce_metadata_enable
 Xstart_cmd="gce_metadata_run"
 Xstop_cmd=":"
 X
-XSSHKEYURL="http://169.254.169.254/1.0/meta-data/public-keys/0/openssh-key"
+XSSHKEYURL="http://169.254.169.254/computeMetadata/v1/project/attributes/ssh-keys"
 XSSHKEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCu3MS7nQxGaOZJiU3Nq65JXRuggfRSPuhwqOD0r5Dcs2E9swP1enZVvHsadED0v+rOBmXPB5a9IJuTg71wB/rCmDLZ+UxOyA8DPfM/1wexM4qv7AI38lz1qb/pNePL/AcsHz5hxKJcYGdPY/Dpta0r2tcu9zp1540vfjfjFUftxoJ49fJ4UM5pQUBerhf1Vorl6uXt3wdJ3kZ45WU1lDRp5Nhi2BwngGa51kAylnO/IJkfYMj+nU7VgiMpNUj2KGbZRmhtKyPzKo8D2m4a9fS/vwjoZpG3Z5uB/HauzXz1vvWEG1EKSviYmd1u5kjHYPbjTjCtETfm6gWy8uRSQJP9ndYgp10z8qwlhTp3To0oOlkMKjzYNfMhit4/xNrusiD7yBJPtYf90ErPVnGmQhbeleSeAaoW26+5r+xJZPVzcESM1pt7dhqWMo6bCuwc7blPO0QiEwii2UBVWqFB7oHJEnQTsJ9exvfxDsFirVARFXjzocK1c6txF0zJ+hLbPuzTkJ/9iS9YlUBmQNWEDIAUHEpFievem/28bcRIkrdFQEku1L3PDq7EEUK3jkLl7Qo3/ONkZ+hBjriZ5HrmtOzeel6n8Qcq4b2wepWX+FgfpjP18c9peS9Dk2nvJ1tDmZifNrHreH6O+mvQDOxRp51B835Mn8L+/4NSww4tQbP0Q=="
 X
 Xgce_metadata_run()
@@ -78,7 +80,7 @@ X{
 X	# If the user does not exist, create it.
 X	if ! grep -q "^${gce_metadata_user}:" /etc/passwd; then
 X		echo "Creating user ${gce_metadata_user}"
-X		pw useradd ${gce_metadata_user} -m -G wheel
+X		pw useradd ${gce_metadata_user} -m -G wheel -s /bin/csh
 X	fi
 X
 X	# Figure out where the SSH public key needs to go.
@@ -91,14 +93,13 @@ X	echo "Fetching SSH public key for ${gce_metadata_user}"
 X	mkdir -p `dirname ${SSHKEYFILE}`
 X	chmod 700 `dirname ${SSHKEYFILE}`
 X	chown ${gce_metadata_user} `dirname ${SSHKEYFILE}`
-X	ftp -o ${SSHKEYFILE}.ec2 -a ${SSHKEYURL} >/dev/null
-X	if [ -f ${SSHKEYFILE}.ec2 ]; then
+X	curl -s -H "Metadata-Flavor: Google" ${SSHKEYURL} -o {SSHKEYFILE}.gce
+X	if [ -f ${SSHKEYFILE}.gce ]; then
 X		touch ${SSHKEYFILE}
-X		sort -u ${SSHKEYFILE} ${SSHKEYFILE}.ec2		\
-X		    > ${SSHKEYFILE}.tmp
+X		sort -u ${SSHKEYFILE} ${SSHKEYFILE}.gce > ${SSHKEYFILE}.tmp
 X		mv ${SSHKEYFILE}.tmp ${SSHKEYFILE}
 X		chown ${gce_metadata_user} ${SSHKEYFILE}
-X		rm ${SSHKEYFILE}.ec2
+X		rm ${SSHKEYFILE}.gce
 X	else
 X		echo "Fetching SSH public key failed!"
 X	fi
@@ -113,27 +114,44 @@ GCE_METADATA
 chmod 0555 ${DESTDIR}/usr/local/etc/rc.d/gce_metadata
 
 # fstab
-echo '/dev/gpt/rootfs   /       ufs     rw      1       1'  > ${DESTDIR}/etc/fstab
+cat << EOF > ${DESTDIR}/etc/fstab
+/dev/gpt/rootfs   /       ufs     rw      1       1
+/dev/gpt/swapfs   none    swap    sw      0       0
+EOF
 
 # rc.conf
 echo 'gce_metadata_enable="YES"' > ${DESTDIR}/etc/rc.conf
 echo 'growfs_enable="YES"' >> ${DESTDIR}/etc/rc.conf
-echo 'ifconfig_DEFAULT="SYNCDHCP"' >> ${DESTDIR}/etc/rc.conf
+echo 'ifconfig_DEFAULT="SYNCDHCP mtu 1460"' >> ${DESTDIR}/etc/rc.conf
 echo 'sshd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
+echo 'ntpd_sync_on_start="YES"' >> ${DESTDIR}/etc/rc.conf
+echo 'ntpd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
 
 # sysctl.conf
 echo 'debug.trace_on_panic=1' >> ${DESTDIR}/etc/sysctl.conf
 echo 'debug.debugger_on_panic=0' >> ${DESTDIR}/etc/sysctl.conf
 echo 'kern.panic_reboot_wait_time=0' >> ${DESTDIR}/etc/sysctl.conf
+echo 'net.inet.icmp.drop_redirect=1' >> ${DESTDIR}/etc/sysctl.conf
+echo 'net.inet.ip.redirect=0' >> ${DESTDIR}/etc/sysctl.conf
+echo 'net.inet.tcp.blackhole=2' >> ${DESTDIR}/etc/sysctl.conf
+echo 'net.inet.udp.blackhole=1' >> ${DESTDIR}/etc/sysctl.conf
+echo 'kern.ipc.somaxconn=1024' >> ${DESTDIR}/etc/sysctl.conf
 
 # loader.conf
 echo 'autoboot_delay="-1"' >> ${DESTDIR}/boot/loader.conf
 echo 'beastie_disable="YES"' >> ${DESTDIR}/boot/loader.conf
+echo 'loader_logo="none"' >> ${DESTDIR}/boot/loader.conf
 echo 'console="comconsole"' >> ${DESTDIR}/boot/loader.conf
 echo 'hw.broken_txfifo="1"' >> ${DESTDIR}/boot/loader.conf
+echo 'hw.memtest.tests="0"' >> ${DESTDIR}/boot/loader.conf
+echo 'hw.vtnet.mq_disable="1"' >> ${DESTDIR}/boot/loader.conf
 
 # firstboot
 touch ${DESTDIR}/firstboot
+
+cat << EOF >> etc/syslog.conf
+*.err;kern.warning;auth.notice;mail.crit                /dev/console
+EOF
 
 # cleanup
 umount_loop /dev/${mddev}
@@ -146,8 +164,12 @@ BOOTFILES=/usr/obj/usr/src/sys/boot
 mkimg -s gpt -f raw \
     -b ${BOOTFILES}/i386/pmbr/pmbr \
     -p freebsd-boot/bootfs:=${BOOTFILES}/i386/gptboot/gptboot \
+    -p freebsd-swap/swapfs:=${SWAPSIZE} \
     -p freebsd-ufs/rootfs:=${VMBASE} \
     -o ${DESTDIR}.raw
+
+echo "  Creating image tar"
+tar --format=gnutar -Szcf ${DESTDIR}.tar.gz disk.raw
 
 END=$(date +%s)
 DIFF=$(echo "$END - $START" | bc)

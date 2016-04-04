@@ -56,3 +56,15 @@ Edit /etc/devfs.conf
 
     own tap0 root:wheel
     perm tap0 0660
+
+
+MODE_280
+--------
+
+In ``/etc/rc.conf`` add:
+
+    vidcontrol MODE_280
+
+To know which mode you can be interested in:
+
+    vidcontrol -i mode

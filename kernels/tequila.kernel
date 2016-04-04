@@ -1,5 +1,5 @@
 cpu		HAMMER
-ident   TEQUILA
+ident   	TEQUILA
 
 options 	SCHED_ULE		# ULE scheduler
 options 	PREEMPTION		# Enable kernel thread preemption
@@ -147,15 +147,15 @@ device		xenpci			# Xen HVM Hypervisor services driver
 device		vmx			# VMware VMXNET3 Ethernet
 
 # nullfs
-options NULLFS
-options FDESCFS
-options TMPFS
+options 	NULLFS
+options 	FDESCFS
+options 	TMPFS
 
 # WATCH
-device    snp
+device    	snp
 
 # asynchronous file I/O
-options VFS_AIO
+options 	VFS_AIO
 
 # zpty
-device pty
+device 		pty

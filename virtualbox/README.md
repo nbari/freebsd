@@ -61,7 +61,7 @@ Edit /etc/devfs.conf
 MODE_280
 --------
 
-In ``/etc/rc.conf`` add:
+In ``/etc/rc.local`` add:
 
     vidcontrol MODE_280
 

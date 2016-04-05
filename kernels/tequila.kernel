@@ -96,7 +96,7 @@ device		vt
 device		vt_vga
 device		vt_efifb
 # Change kernel messages color
-options		TERMINAL_KERN_ATTR=(FG_LIGHTRED|BG_BLACK)
+options		TERMINAL_KERN_ATTR=(FG_YELLOW|BG_BLACK)
 
 # Serial (COM) ports
 device		uart			# Generic UART driver

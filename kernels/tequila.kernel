@@ -137,9 +137,6 @@ device		hyperv			# HyperV drivers
 options 	XENHVM			# Xen HVM kernel infrastructure
 device		xenpci			# Xen HVM Hypervisor services driver
 
-# VMware support
-device		vmx			# VMware VMXNET3 Ethernet
-
 # nullfs
 options 	NULLFS
 options 	FDESCFS

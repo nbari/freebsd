@@ -6,6 +6,8 @@ START=$(date +%s)
 
 DESTDIR=/aws/ec2
 
+SWAPSIZE=1G
+VMSIZE=8g
 # ----------------------------------------------------------------------------
 
 umount_loop() {
@@ -29,7 +31,7 @@ umount_loop() {
 VMBASE=${DESTDIR}.img
 mkdir -p ${DESTDIR}
 # truncate -s 1536M ${VMBASE}
-truncate -s 512M ${VMBASE}
+truncate -s ${VMSIZE} ${VMBASE}
 mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}
 mount /dev/${mddev} ${DESTDIR}
@@ -146,6 +148,7 @@ BOOTFILES=/usr/obj/usr/src/sys/boot
 mkimg -s gpt -f raw \
     -b ${BOOTFILES}/i386/pmbr/pmbr \
     -p freebsd-boot/bootfs:=${BOOTFILES}/i386/gptboot/gptboot \
+    -p freebsd-swap/swapfs::${SWAPSIZE} \
     -p freebsd-ufs/rootfs:=${VMBASE} \
     -o ${DESTDIR}.raw
 

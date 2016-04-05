@@ -14,10 +14,10 @@ options 	UFS_DIRHASH		# Improve performance on big directories
 options 	UFS_GJOURNAL		# Enable gjournal-based UFS journaling
 options 	QUOTA			# Enable disk quotas for UFS
 options 	MD_ROOT			# MD is a potential root device
-options 	NFSCL			# New Network Filesystem Client
-options 	NFSD			# New Network Filesystem Server
-options 	NFSLOCKD		# Network Lock Manager
-options 	NFS_ROOT		# NFS usable as /, requires NFSCL
+# options 	NFSCL			# New Network Filesystem Client
+# options 	NFSD			# New Network Filesystem Server
+# options 	NFSLOCKD		# Network Lock Manager
+# options 	NFS_ROOT		# NFS usable as /, requires NFSCL
 options 	MSDOSFS			# MSDOS Filesystem
 options 	CD9660			# ISO 9660 Filesystem
 options 	PROCFS			# Process filesystem (requires PSEUDOFS)
@@ -30,7 +30,7 @@ options 	COMPAT_FREEBSD4		# Compatible with FreeBSD4
 options 	COMPAT_FREEBSD5		# Compatible with FreeBSD5
 options 	COMPAT_FREEBSD6		# Compatible with FreeBSD6
 options 	COMPAT_FREEBSD7		# Compatible with FreeBSD7
-options 	SCSI_DELAY=5000		# Delay (in ms) before probing SCSI
+# options 	SCSI_DELAY=5000		# Delay (in ms) before probing SCSI
 options 	KTRACE			# ktrace(1) support
 options 	STACK			# stack(9) support
 options 	SYSVSHM			# SYSV-style shared memory
@@ -97,6 +97,9 @@ device		vt_vga
 device		vt_efifb
 # Change kernel messages color
 options		TERMINAL_KERN_ATTR=(FG_LIGHTRED|BG_BLACK)
+
+# Serial (COM) ports
+device		uart			# Generic UART driver
 
 # Pseudo devices.
 device		loop			# Network loopback

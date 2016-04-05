@@ -59,7 +59,7 @@ Full update (fast way)
 4. ``make installworld`` (skip the mergemaster -p)
 5. ``yes | make delete-old``
 6. ``cp -R /etc /etc.old && cd /usr/src && make distribution DESTDIR=/``
-7. ``cd /etc.old && mv fstab resolv.conf rc.conf group passwd master.passwd /etc && pwd_mkdb /etc/master.passwd``
+7. ``cd /etc.old && cp group passwd master.passwd /etc && pwd_mkdb /etc/master.passwd``
 8. ``reboot``
 9. ``yes | make delete-old-libs``
 

@@ -115,7 +115,10 @@ EC2_FETCHKEY
 chmod 0555 ${DESTDIR}/usr/local/etc/rc.d/ec2_fetchkey
 
 # fstab
-echo '/dev/gpt/rootfs   /       ufs     rw      1       1'  > ${DESTDIR}/etc/fstab
+cat << EOF > ${WRKDIR}/etc/fstab
+/dev/gpt/rootfs   /       ufs     rw      1       1
+/dev/gpt/swapfs   none    swap    sw      0       0
+EOF
 
 # rc.conf
 echo 'ec2_fetchkey_enable="YES"' > ${DESTDIR}/etc/rc.conf

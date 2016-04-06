@@ -16,6 +16,10 @@ Import volume:
 
     # ec2-import-volume ec2.raw -f raw -z us-east-1a -b yourbucket -o AKIAJANL -w +YL8t2XaMRU
 
+Wait until status is complete to get the volname
+
+    # ec2-describe-conversion-tasks
+
 Create snapshot:
 
     # ec2-create-snapshot vol-5bd271b1 -d "freebsd test"

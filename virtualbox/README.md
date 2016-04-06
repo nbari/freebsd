@@ -68,3 +68,11 @@ In ``/etc/rc.local`` add:
 To know which mode you can be interested in:
 
     vidcontrol -i mode
+
+
+RAW to VDI
+----------
+
+To use RAW images on Virtualbox:
+
+    VBoxManage convertfromraw ec2.raw ec2.vdi --format VDI

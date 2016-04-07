@@ -104,7 +104,7 @@ X	echo "Fetching SSH public key for ${gce_metadata_user}"
 X	mkdir -p `dirname ${SSHKEYFILE}`
 X	chmod 700 `dirname ${SSHKEYFILE}`
 X	chown ${gce_metadata_user} `dirname ${SSHKEYFILE}`
-X	/usr/local/bin/curl -s -H "Metadata-Flavor: Google" ${SSHKEYURL} -o ${SSHKEYFILE}.gce
+X	/usr/local/bin/curl -s -H "Metadata-Flavor: Google" -f ${SSHKEYURL} -o ${SSHKEYFILE}.gce
 X	if [ -f ${SSHKEYFILE}.gce ]; then
 X		touch ${SSHKEYFILE}
 X		sort -u ${SSHKEYFILE} ${SSHKEYFILE}.gce > ${SSHKEYFILE}.tmp

@@ -38,9 +38,10 @@ mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}
 mount /dev/${mddev} ${DESTDIR}
 
-cd /usr/src; make DESTDIR=${DESTDIR} -j36 world && \
-make DESTDIR=${DESTDIR} -j36 kernel && \
-make DESTDIR=${DESTDIR} distribution
+cd /usr/src
+make DESTDIR=${WRKDIR} installworld && make DESTDIR=${WRKDIR} installkernel
+# make DESTDIR=${WRKDIR} world && make DESTDIR=${WRKDIR} kernel
+make DESTDIR=${WRKDIR} distribution
 
 mkdir -p ${DESTDIR}/dev
 mount -t devfs devfs ${DESTDIR}/dev

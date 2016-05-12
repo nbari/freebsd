@@ -6,13 +6,14 @@ Build
 
 Edit [src.conf and your kernel](https://github.com/nbari/freebsd/tree/master/kernels) based on your needs:
 
-    # cd /usr/src && make buildworld buildkernel
+    # cd /usr/src && make -j36 buildworld buildkernel
+
+> adjust -jXX based on the cpu cores
 
 Create an image:
 
     # create_ec2_raw.sh
 
-> if compiling on a machine with multiple cores edit create_ec2_raw and use something like make -j36
 
 Import volume:
 

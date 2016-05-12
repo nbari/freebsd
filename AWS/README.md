@@ -12,6 +12,8 @@ Create an image:
 
     # create_ec2_raw.sh
 
+> if compiling on a machine with multiple cores edit create_ec2_raw and use something like make -j36
+
 Import volume:
 
     # ec2-import-volume ec2.raw -f raw -z us-east-1a -b yourbucket -o AKIAJANL -w +YL8t2XaMRU
@@ -31,3 +33,21 @@ Delete volume:
 Register AMI:
 
     # ec2-register -n "FreeBSD test" -d "FreeBSD AWS test" -a x86_64 --virtualization-type hvm --root-device-name /dev/sda1 -b "/dev/sda1=snap-ed9cd29e:10:true:gp2" -b "/dev/sdb=ephemeral0" -b "/dev/sdc=ephemeral1" -b "/dev/sdd=ephemeral2" -b "/dev/sde=ephemeral3"
+
+
+#  Amazon EC2 CLI
+
+More info: http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/set-up-ec2-cli-linux.html
+
+To install:
+
+    fetch http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
+
+or
+    curl -O http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
+
+
+Unzip the files into a suitable installation directory, such as /usr/local/ec2.
+
+    mkdir /usr/local/ec2
+    unzip ec2-api-tools.zip -d /usr/local/ec2

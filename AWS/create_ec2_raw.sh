@@ -7,7 +7,9 @@ START=$(date +%s)
 DESTDIR=/aws/ec2
 
 SWAPSIZE=1G
-VMSIZE=8g
+# to uplaod faster in AWS
+VMSIZE=512M
+# VMSIZE=8g
 # ----------------------------------------------------------------------------
 
 umount_loop() {
@@ -36,8 +38,8 @@ mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}
 mount /dev/${mddev} ${DESTDIR}
 
-cd /usr/src; make DESTDIR=${DESTDIR} world && \
-make DESTDIR=${DESTDIR} kernel && \
+cd /usr/src; make DESTDIR=${DESTDIR} -j36 world && \
+make DESTDIR=${DESTDIR} -j36 kernel && \
 make DESTDIR=${DESTDIR} distribution
 
 mkdir -p ${DESTDIR}/dev

@@ -18,6 +18,8 @@ Import volume:
 
     # ec2-import-volume ec2.raw -f raw -z us-east-1a -b yourbucket -o AKIAJANL -w +YL8t2XaMRU
 
+> use -O, --aws-access-key if your are not the owner of the bucket
+
 Wait until status is complete to get the volname
 
     # ec2-describe-conversion-tasks

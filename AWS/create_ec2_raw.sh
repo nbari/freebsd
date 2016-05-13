@@ -7,7 +7,7 @@ START=$(date +%s)
 DESTDIR=/aws/ec2
 
 SWAPSIZE=1G
-VMSIZE=2g
+VMSIZE=500M
 # ----------------------------------------------------------------------------
 
 umount_loop() {
@@ -36,10 +36,9 @@ mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}
 mount /dev/${mddev} ${DESTDIR}
 
-cd /usr/src
-make DESTDIR=${WRKDIR} installworld && make DESTDIR=${WRKDIR} installkernel
-# make DESTDIR=${WRKDIR} world && make DESTDIR=${WRKDIR} kernel
-make DESTDIR=${WRKDIR} distribution
+cd /usr/src; make DESTDIR=${DESTDIR} installworld && \
+make DESTDIR=${DESTDIR} installkernel && \
+make DESTDIR=${DESTDIR} distribution
 
 mkdir -p ${DESTDIR}/dev
 mount -t devfs devfs ${DESTDIR}/dev

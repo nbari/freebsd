@@ -7,7 +7,7 @@ START=$(date +%s)
 DESTDIR=/aws/ec2
 
 SWAPSIZE=1G
-VMSIZE=500M
+VMSIZE=2g
 # ----------------------------------------------------------------------------
 
 umount_loop() {

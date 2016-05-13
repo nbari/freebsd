@@ -7,9 +7,7 @@ START=$(date +%s)
 DESTDIR=/aws/ec2
 
 SWAPSIZE=1G
-# to uplaod faster in AWS
-VMSIZE=512M
-# VMSIZE=8g
+VMSIZE=2g
 # ----------------------------------------------------------------------------
 
 umount_loop() {

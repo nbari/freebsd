@@ -19,6 +19,8 @@ Import volume:
 
     # ec2-import-volume ec2.raw -f raw -z us-east-1a -b yourbucket -o AKIAJANL -w +YL8t2XaMRU
 
+> CLI tools required for this: http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/set-up-ec2-cli-linux.html#tools-introduction
+
 > use -O, --aws-access-key if your are not the owner of the bucket
 
 Wait until status is complete to get the volname

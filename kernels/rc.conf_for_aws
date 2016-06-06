@@ -1,0 +1,39 @@
+firstboot_sentinel="/firstboot"
+ec2_fetchkey_enable="YES"
+set_hostname_enable="YES"
+growfs_enable="YES"
+ifconfig_DEFAULT="SYNCDHCP -tso"
+#-----------------------------------------------------------------------
+# main
+#-----------------------------------------------------------------------
+syslogd_flags="-ssC"
+sendmail_enable="NO"
+sshd_flags="-4"
+sshd_enable="YES"
+ntpd_enable="YES"
+ntpd_sync_on_start="YES"
+#-----------------------------------------------------------------------
+# tune
+#-----------------------------------------------------------------------
+kern_securelevel_enable="YES"
+kern_securelevel="1"
+icmp_drop_redirect="YES"
+icmp_log_redirect="YES"
+tcp_extensions="NO"
+tcp_keepalive="YES"
+icmp_bmcastecho="NO"
+icmp_bandlim="YES"
+update_motd="NO"
+clear_tmp_enable="YES"
+cleanvar_enable="YES"
+log_in_vain="0"
+dumpdev="NO"
+fsck_y_enable="YES"
+#-----------------------------------------------------------------------
+# runit
+#-----------------------------------------------------------------------
+runsvdir_enable="YES"
+runsvdir_path="/service"
+#-----------------------------------------------------------------------
+hostname="i-f880b371"
+salt_minion_enable="YES"

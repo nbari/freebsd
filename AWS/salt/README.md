@@ -52,3 +52,9 @@ Configure ``/etc/rc.conf`` to **firstboot** custom scripts:
 
 copy [set_hostname](https://github.com/nbari/freebsd/blob/master/AWS/salt/set_hostname)
 to ``/usr/local/etc/rc.d/set_hostname``.
+
+# firstboot
+
+Before cloning the instance do:
+
+    touch /firstboot && touch /firstboot-reboot

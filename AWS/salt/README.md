@@ -39,3 +39,16 @@ Create a AMI user to read-only for example: **vpc-readonly** and use this policy
             ]
         }]
     }
+
+
+Configure ``/etc/rc.conf`` to **firstboot** custom scripts:
+
+    firstboot_sentinel="/firstboot"
+    # you can omit ec2_fetchkey if keys already exists
+    ec2_fetchkey_enable="YES"
+    set_hostname_enable="YES"
+    growfs_enable="YES"
+    ifconfig_DEFAULT="SYNCDHCP -tso"
+
+copy [set_hostname](https://github.com/nbari/freebsd/blob/master/AWS/salt/set_hostname)
+to ``/usr/local/etc/rc.d/set_hostname``.

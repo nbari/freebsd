@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# KEYWORD: firstboot
+# PROVIDE: set_hostname
+# REQUIRE: NETWORKING
+# BEFORE:  login
+
+. /etc/rc.subr
+
+name="set_hostname"
+rcvar=set_hostname_enable
+start_cmd="set_hostname_run"
+stop_cmd=":"
+
+export AWS_ACCESS_KEY_ID=aws_access_key_id
+export AWS_SECRET_ACCESS_KEY=aws_secret_access_key
+export AWS_DEFAULT_REGION=the_region
+
+TAG_NAME="Salt"
+INSTANCE_ID=$(/usr/local/bin/curl -s http://169.254.169.254/latest/meta-data/instance-id)
+REGION=$(/usr/local/bin/curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/.$//')
+TAG_VALUE=$(/usr/local/bin/aws ec2 describe-tags --filters "Name=resource-id,Values=${INSTANCE_ID}" "Name=key,Values=$TAG_NAME" --region ${REGION} --output=text | cut -f5)
+
+set_hostname_run()
+{
+	hostname ${INSTANCE_ID}
+	sysrc hostname="${INSTANCE_ID}"
+	sysrc salt_minion_enable="YES"
+	echo ${INSTANCE_ID} > /usr/local/etc/salt/minion_id
+	pw usermod root -c "root on ${INSTANCE_ID}"
+	if [ ! -z "${TAG_VALUE}" ]; then
+		echo "node_type: ${TAG_VALUE}" > /usr/local/etc/salt/grains
+	fi
+	service salt_minion start
+}
+
+load_rc_config $name
+run_rc_command "$1"

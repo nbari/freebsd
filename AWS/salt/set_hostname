@@ -3,7 +3,7 @@
 # KEYWORD: firstboot
 # PROVIDE: set_hostname
 # REQUIRE: NETWORKING
-# BEFORE:  login
+# BEFORE:  SERVERS
 
 . /etc/rc.subr
 
@@ -31,7 +31,6 @@ set_hostname_run()
 	if [ ! -z "${TAG_VALUE}" ]; then
 		echo "node_type: ${TAG_VALUE}" > /usr/local/etc/salt/grains
 	fi
-	service salt_minion start
 }
 
 load_rc_config $name

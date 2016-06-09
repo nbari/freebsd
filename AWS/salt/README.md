@@ -49,6 +49,7 @@ Configure ``/etc/rc.conf`` to **firstboot** custom scripts:
     set_hostname_enable="YES"
     growfs_enable="YES"
     ifconfig_DEFAULT="SYNCDHCP -tso"
+    salt_minion_enable="YES"
 
 copy [set_hostname](https://github.com/nbari/freebsd/blob/master/AWS/salt/set_hostname)
 to ``/usr/local/etc/rc.d/set_hostname``.
@@ -56,5 +57,9 @@ to ``/usr/local/etc/rc.d/set_hostname``.
 # firstboot
 
 Before cloning the instance do:
+
+    touch /firstboot
+
+If need to reboot:
 
     touch /firstboot && touch /firstboot-reboot

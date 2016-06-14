@@ -45,12 +45,12 @@ on AWS EC2 instance c3.8xlarge takes less than 10 min:
 ```
 
 
-If you have already have compiled the world you can just install it:
+If you have already compiled the world you can just install it:
 
     # make installworld DESTDIR=$D SRCCONF=/etc/src-jail.conf
 
 Now is a good time to go pee or getting a coffee since this will take awhile,
-basically this will create a new user land, but is compiling everything based on
+basically this will create a new user land, compiling everything based on
 your architecture and kernel.
 
 

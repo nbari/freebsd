@@ -264,3 +264,11 @@ Starting jails: cannot start jail  "jail3":
 jail: jail3: jail 3 already exists
 
     pkill -j 3
+
+
+Postgresql
+==========
+
+In jail.conf add:
+
+    allow.sysvipc;

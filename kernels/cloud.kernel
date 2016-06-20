@@ -35,7 +35,7 @@ options 	COMPAT_FREEBSD4		# Compatible with FreeBSD4
 options 	COMPAT_FREEBSD5		# Compatible with FreeBSD5
 options 	COMPAT_FREEBSD6		# Compatible with FreeBSD6
 options 	COMPAT_FREEBSD7		# Compatible with FreeBSD7
-options 	SCSI_DELAY=5000		# Delay (in ms) before probing SCSI
+# options 	SCSI_DELAY=5000		# Delay (in ms) before probing SCSI
 options 	KTRACE			# ktrace(1) support
 options 	STACK			# stack(9) support
 options 	SYSVSHM			# SYSV-style shared memory
@@ -94,18 +94,15 @@ device		nvd		# expose NVMe namespaces as disks, depends on nvme
 # atkbdc0 controls both the keyboard and the PS/2 mouse
 device		atkbdc	# AT keyboard controller
 device		atkbd	# AT keyboard
-device		psm		# PS/2 mouse
-
 device		kbdmux		# keyboard multiplexer
 
-device		vga		# VGA video card driver
-options 	VESA	# Add support for VESA BIOS Extensions (VBE)
 
-device		splash		# Splash screen and screen saver support
-
-# syscons is the default console driver, resembling an SCO console
-device		sc
-options 	SC_PIXEL_MODE		# add support for the raster text mode
+# vt is the new video console driver
+device		vt
+device		vt_vga
+device		vt_efifb
+# Change kernel messages color
+options		TERMINAL_KERN_ATTR=(FG_YELLOW|BG_BLACK)
 
 # Serial (COM) ports
 device		uart			# Generic UART driver

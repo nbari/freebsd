@@ -35,6 +35,10 @@ This make time some time depending on your Hardware.
     # cd /usr/src
     # make kernel KERNCONF=YOUR_KERNEL_HERE
 
+To disable debug options:
+
+    # make -DMALLOC_PRODUCTION kernel KERNCONF=YOUR_KERNEL_HERE
+
 you can also edit the file /etc/make.conf and specify the kernel name, for example:
 
     # cat /etc/make.conf

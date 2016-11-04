@@ -10,7 +10,7 @@ Building and Installing a Custom Kernel in 3 simple steps
 
 To get the lates **stable** sources you can do this:
 
-    # svnlite co svn://svn.freebsd.org/base/stable/10 /usr/src
+    # svnlite co svn://svn.freebsd.org/base/stable/11 /usr/src
 
 > At the time of writing this, the latest stable version is number 10.
 

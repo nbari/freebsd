@@ -162,3 +162,11 @@ ZFS on MAC OS X
 Create a mirror:
 
     sudo zpool create -f -o ashift=12 -O normalization=formD tank mirror /dev/disk1 /dev/disk2
+
+
+rc.conf
+-------
+
+Don't forget to enable ZFS on rc.conf:
+
+    zfs_enable="YES"

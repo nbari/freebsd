@@ -76,3 +76,11 @@ RAW to VDI
 To use RAW images on Virtualbox:
 
     VBoxManage convertfromraw ec2.raw ec2.vdi --format VDI
+
+resize raw disk:
+
+    VBoxManage modifyhd ec2.vdi --resize 8192
+
+To 100GB:
+
+    VBoxManage modifyhd ec2.vdi --resize 10240

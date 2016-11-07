@@ -124,12 +124,23 @@ EOF
 echo 'ec2_fetchkey_enable="YES"' > ${DESTDIR}/etc/rc.conf
 echo 'growfs_enable="YES"' >> ${DESTDIR}/etc/rc.conf
 echo 'ifconfig_DEFAULT="SYNCDHCP"' >> ${DESTDIR}/etc/rc.conf
+echo 'clear_tmp_enable="YES"' >> ${DESTDIR}/etc/rc.conf
+echo 'syslogd_flags="-ssC"' >> ${DESTDIR}/etc/rc.conf
+echo 'sendmail_enable="NONE"' >> ${DESTDIR}/etc/rc.conf
 echo 'sshd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
+echo 'ntpdate_enable="YES"' >> ${DESTDIR}/etc/rc.conf
+echo 'ntpd_enable="YES"' >> ${DESTDIR}/etc/rc.conf
+echo 'dumpdev="NO"' >> ${DESTDIR}/etc/rc.conf
 
 # sysctl.conf
 echo 'debug.trace_on_panic=1' >> ${DESTDIR}/etc/sysctl.conf
 echo 'debug.debugger_on_panic=0' >> ${DESTDIR}/etc/sysctl.conf
 echo 'kern.panic_reboot_wait_time=0' >> ${DESTDIR}/etc/sysctl.conf
+echo 'security.bsd.see_other_uids=0' >> ${DESTDIR}/etc/sysctl.conf
+echo 'security.bsd.see_other_gids=0' >> ${DESTDIR}/etc/sysctl.conf
+echo 'security.bsd.unprivileged_read_msgbuf=0' >> ${DESTDIR}/etc/sysctl.conf
+echo 'security.bsd.unprivileged_proc_debug=0' >> ${DESTDIR}/etc/sysctl.conf
+echo 'security.bsd.stack_guard_page=1' >> ${DESTDIR}/etc/sysctl.conf
 
 # loader.conf
 echo 'autoboot_delay="-1"' >> ${DESTDIR}/boot/loader.conf

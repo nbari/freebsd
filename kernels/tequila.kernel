@@ -149,3 +149,8 @@ device 		pty
 
 # vmware
 device		vmx
+
+# disk encryption
+options		GEOM_BDE
+options		GEOM_ELI
+device		crypto

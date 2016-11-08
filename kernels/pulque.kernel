@@ -144,11 +144,11 @@ options 	TMPFS
 # WATCH
 device    	snp
 
-# asynchronous file I/O
-options 	VFS_AIO
-
 # zpty
 device 		pty
+
+# vmware
+device		vmx
 
 # pf
 device pf
@@ -181,3 +181,7 @@ device gre
 
 # Common Address Redundancy Protocol
 device carp
+
+# disk encryption
+options		GEOM_BDE
+options		GEOM_ELI

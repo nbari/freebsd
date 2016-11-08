@@ -166,6 +166,13 @@ mkimg -s gpt -f raw \
     -p freebsd-ufs/rootfs:=${VMBASE} \
     -o ${DESTDIR}.raw
 
+mkimg -s gpt -f vmdk \
+    -b ${BOOTFILES}/i386/pmbr/pmbr \
+    -p freebsd-boot/bootfs:=${BOOTFILES}/i386/gptboot/gptboot \
+    -p freebsd-swap/swapfs::${SWAPSIZE} \
+    -p freebsd-ufs/rootfs:=${VMBASE} \
+    -o ${DESTDIR}.vmdk
+
 END=$(date +%s)
 DIFF=$(echo "$END - $START" | bc)
 

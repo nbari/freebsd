@@ -183,5 +183,4 @@ device gre
 device carp
 
 # disk encryption
-options		GEOM_BDE
 options		GEOM_ELI

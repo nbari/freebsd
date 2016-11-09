@@ -151,6 +151,5 @@ device 		pty
 device		vmx
 
 # disk encryption
-options		GEOM_BDE
 options		GEOM_ELI
 device		crypto

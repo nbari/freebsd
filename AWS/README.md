@@ -8,9 +8,10 @@ Edit [src.conf and your kernel](https://github.com/nbari/freebsd/tree/master/ker
 
     # cd /usr/src && make -j36 buildworld buildkernel
 
-Using a ``m4.16xlarge`` instance (64 cores)  takes aproximately 0:12:53 (h:m:s):
+Using a ``c4.8xlarge`` instance (36 cores) takes aproximately 0:06:29 h:m:s
 
-    # cd /usr/src && make -DMALLOC_PRODUCTION -j64 buildworld buildkernel
+Using a ``m4.16xlarge`` instance (64 cores) takes aproximately 0:12:53 (h:m:s):
+
 
 > adjust -jXX based on the cpu cores
 

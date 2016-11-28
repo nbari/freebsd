@@ -10,6 +10,10 @@ gcloud compute images create freebsd --source-uri gs://your-bucket/freebsd.tar.g
 gcloud compute instances create example-f1-micro --machine-type f1-micro --image freebsd --zone europe-west1-c --boot-disk-size 10GB
 
 
+for VPN/NAT probably need to add this
+
+    --can-ip-forward
+
 RAW - VDI (virtualbox)
 ======================
 

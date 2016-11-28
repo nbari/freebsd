@@ -14,6 +14,10 @@ for VPN/NAT probably need to add this
 
     --can-ip-forward
 
+To disable TSO
+
+    ifconfig_DEFAULT="SYNCDHCP mtu 1460 -tso -vlanhwtso"
+
 RAW - VDI (virtualbox)
 ======================
 

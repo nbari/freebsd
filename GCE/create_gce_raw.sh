@@ -37,7 +37,7 @@ VMBASE=${WRKDIR}.img
 mkdir -p ${WRKDIR}
 truncate -s ${VMSIZE} ${VMBASE}
 mddev=$(mdconfig -f ${VMBASE})
-newfs /dev/${mddev}
+newfs -U -j -t /dev/${mddev}
 mount /dev/${mddev} ${WRKDIR}
 
 cd /usr/src

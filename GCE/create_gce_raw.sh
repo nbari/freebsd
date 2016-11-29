@@ -171,10 +171,11 @@ echo 'kern.ipc.somaxconn=1024' >> ${WRKDIR}/etc/sysctl.conf
 echo 'autoboot_delay="-1"' >> ${WRKDIR}/boot/loader.conf
 echo 'beastie_disable="YES"' >> ${WRKDIR}/boot/loader.conf
 echo 'loader_logo="none"' >> ${WRKDIR}/boot/loader.conf
-echo 'console="comconsole"' >> ${WRKDIR}/boot/loader.conf
+echo 'console="comconsole,vidconsole"' >> ${WRKDIR}/boot/loader.conf
 echo 'hw.broken_txfifo="1"' >> ${WRKDIR}/boot/loader.conf
 echo 'hw.memtest.tests="0"' >> ${WRKDIR}/boot/loader.conf
 echo 'hw.vtnet.mq_disable="1"' >> ${WRKDIR}/boot/loader.conf
+echo 'kern.timecounter.hardware=ACPI-safe' >> ${WRKDIR}/boot/loader.conf
 
 # firstboot
 touch ${WRKDIR}/firstboot

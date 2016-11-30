@@ -10,7 +10,7 @@ START=$(date +%s)
 OUTDIR=/gce
 WRKDIR=${OUTDIR}/disk
 SWAPSIZE=1G
-VMSIZE=2g
+VMSIZE=1g
 
 # ----------------------------------------------------------------------------
 # no need to change below this line

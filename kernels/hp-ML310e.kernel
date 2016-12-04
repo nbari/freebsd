@@ -1,15 +1,8 @@
 # ----------------------------------------------------------------------------
-# MEZCAL: for VPS that need firewall (not in AWS or GCE) and may have VNC
-# - with vmx for KVM/VMWARE
-# - Intel em0
-# - USB
-# - no XEN
-# - pf without ALTQ
-# - no CARP
-# - no IPSEC
+# HP ML310e Gen8
 # ----------------------------------------------------------------------------
 cpu		HAMMER
-ident   	MEZCAL
+ident   	ML310e
 
 options 	SCHED_ULE		# ULE scheduler
 options 	PREEMPTION		# Enable kernel thread preemption
@@ -35,11 +28,11 @@ options 	PSEUDOFS		# Pseudo-filesystem framework
 options 	GEOM_PART_GPT		# GUID Partition Tables.
 options 	GEOM_RAID		# Soft RAID functionality.
 options 	GEOM_LABEL		# Provides labelization
-# options 	COMPAT_FREEBSD32	# Compatible with i386 binaries
-# options 	COMPAT_FREEBSD4		# Compatible with FreeBSD4
-# options 	COMPAT_FREEBSD5		# Compatible with FreeBSD5
-# options 	COMPAT_FREEBSD6		# Compatible with FreeBSD6
-# options 	COMPAT_FREEBSD7		# Compatible with FreeBSD7
+options 	COMPAT_FREEBSD32	# Compatible with i386 binaries
+options 	COMPAT_FREEBSD4		# Compatible with FreeBSD4
+options 	COMPAT_FREEBSD5		# Compatible with FreeBSD5
+options 	COMPAT_FREEBSD6		# Compatible with FreeBSD6
+options 	COMPAT_FREEBSD7		# Compatible with FreeBSD7
 # options 	SCSI_DELAY=5000		# Delay (in ms) before probing SCSI
 options 	KTRACE			# ktrace(1) support
 options 	STACK			# stack(9) support
@@ -111,8 +104,10 @@ options		TERMINAL_KERN_ATTR=(FG_YELLOW|BG_BLACK)
 # Serial (COM) ports
 device		uart			# Generic UART driver
 
-# PCI Ethernet NICs.
-device          em                      # Intel PRO/1000 Gigabit Ethernet Family
+# PCI Ethernet NICs that use the common MII bus controller code.
+# # NOTE: Be sure to keep the 'device miibus' line in order to use these NICs!
+device          miibus                  # MII bus support
+device          bge                     # Broadcom BCM570xx Gigabit Ethernet
 
 # Pseudo devices.
 device		loop			# Network loopback
@@ -140,16 +135,6 @@ device          usb                     # USB Bus (required)
 device          ukbd                    # Keyboard
 device          umass                   # Disks/Mass storage - Requires scbus and da
 
-# VirtIO support
-device		virtio			# Generic VirtIO bus (required)
-device		virtio_pci		# VirtIO PCI Interface
-device		vtnet			# VirtIO Ethernet device
-device		virtio_blk		# VirtIO Block device
-device		virtio_scsi		# VirtIO SCSI device
-device		virtio_balloon		# VirtIO Memory Balloon device
-device		virtio_random		# VirtIO Entropy device
-device		virtio_console		# VirtIO Console device
-
 # HyperV drivers and enchancement support
 device		hyperv			# HyperV drivers
 
@@ -164,15 +149,40 @@ device    	snp
 # zpty
 device 		pty
 
-# vmware
-device		vmx
-
 # pf
 device pf
 device pflog
 device pfsync
 
+# pf's QoS - ALTQ
+options ALTQ
+options ALTQ_CBQ        # Class Bases Queuing (CBQ)
+options ALTQ_RED        # Random Early Detection (RED)
+options ALTQ_RIO        # RED In/Out
+options ALTQ_HFSC       # Hierarchical Packet Scheduler (HFSC)
+options ALTQ_PRIQ       # Priority Queuing (PRIQ)
+options ALTQ_NOPCC      # Required for SMP build
+
+# VPN
+options   IPSEC
+options   IPSEC_FILTERTUNNEL
+options   IPSEC_NAT_T
+options   IPSEC_DEBUG
+device    crypto
+device    aesni
+device    enc
+
+# routes setfib
+# options ROUTETABLES=8
+
+# encapsulating network device
+device gre
+
+# Common Address Redundancy Protocol
+device carp
+
 # disk encryption
 options		GEOM_ELI
-device		crypto
-device		aesni
+
+# Netmap provides direct access to TX/RX rings on supported NICs
+device          netmap                  # netmap(4) support

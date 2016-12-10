@@ -7,11 +7,12 @@ truncate -s ${VMSIZE} ${RAW}
 mddev=$(mdconfig -a -t vnode -f ${RAW})
 
 gpart create -s gpt /dev/${mddev}
-gpart add -b 40 -s 1024 -t freebsd-boot /dev/${mddev}
-gpart add -t freebsd-zfs -l disk0 /dev/${mddev}
+gpart add -a 4k -s 512k -t freebsd-boot /dev/${mddev}
+gpart add -a 4k -t freebsd-zfs -l disk0 /dev/${mddev}
 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 /dev/${mddev}
 
-# sysctl vfs.zfs.min_auto_ashift=12
+sysctl vfs.zfs.min_auto_ashift=12
+
 zpool create -o cachefile=/var/tmp/zpool.cache -o altroot=/mnt -O compress=lz4 -O atime=off -O utf8only=on zroot /dev/gpt/disk0
 zfs create -o mountpoint=none zroot/ROOT
 zfs create -o mountpoint=/ zroot/ROOT/default
@@ -34,7 +35,6 @@ cd /usr/src
 make DESTDIR=/zroot installworld && make DESTDIR=/zroot installkernel
 make DESTDIR=/zroot distribution
 
-cp /var/tmp/zpool.cache /zroot/boot/
 cp /var/tmp/zpool.cache /zroot/boot/zfs/zpool.cache
 
 # loader.conf

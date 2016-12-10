@@ -18,10 +18,10 @@ gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ${mddev}
 
 sysctl vfs.zfs.min_auto_ashift=12
 
-zpool create -o cachefile=/var/tmp/zpool.cache -o altroot=/mnt -o autoexpand=on -O compress=lz4 -O atime=off zroot /dev/gpt/disk0
+zpool create -o altroot=/mnt -o autoexpand=on -O canmount=off -O compress=lz4 -O atime=off -m none zroot /dev/gpt/disk0
 zfs create -o mountpoint=none zroot/ROOT
 zfs create -o mountpoint=/ zroot/ROOT/default
-zfs create -o mountpoint=/tmp -o exec=on -o setuid=off zroot/tmp
+zfs create -o mountpoint=/tmp -o exec=off -o setuid=off zroot/tmp
 zfs create -o mountpoint=/usr -o canmount=off zroot/usr
 zfs create -o mountpoint=/usr/home zroot/usr/home
 zfs create -o mountpoint=/usr/ports -o setuid=off zroot/usr/ports
@@ -40,8 +40,6 @@ zpool set bootfs=zroot/ROOT/default zroot
 cd /usr/src; make DESTDIR=/mnt installworld && \
     make DESTDIR=/mnt installkernel && \
     make DESTDIR=/mnt distribution
-
-cp /var/tmp/zpool.cache /mnt/boot/zfs/zpool.cache
 
 mkdir -p /mnt/dev
 mount -t devfs devfs /mnt/dev
@@ -111,6 +109,7 @@ X		rm ${SSHKEYFILE}.keys
 X	else
 X		echo "Fetching SSH public key failed!"
 X	fi
+X   zfs set readonly=off zroot/ROOT/default
 X}
 X
 Xload_rc_config $name
@@ -129,10 +128,9 @@ autoboot_delay="-1"
 beastie_disable="YES"
 console="comconsole"
 hw.broken_txfifo="1"
-zfs_load="YES"
 kern.geom.label.disk_ident.enable="0"
 kern.geom.label.gptid.enable="0"
-vfs.root.mountfrom="zfs:zroot/ROOT/default"
+zfs_load="YES"
 EOF
 
 # /etc/rc.conf
@@ -161,6 +159,7 @@ security.bsd.unprivileged_proc_debug=0
 security.bsd.stack_guard_page=1
 EOF
 
+sync
 zpool export zroot
 mdconfig -d -u ${mddev}
 chflags -R noschg /mnt

@@ -109,7 +109,6 @@ X		rm ${SSHKEYFILE}.keys
 X	else
 X		echo "Fetching SSH public key failed!"
 X	fi
-X   zfs set readonly=off zroot/ROOT/default
 X}
 X
 Xload_rc_config $name

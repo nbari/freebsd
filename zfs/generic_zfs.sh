@@ -133,7 +133,6 @@ zfs_load="YES"
 kern.geom.label.disk_ident.enable="0"
 kern.geom.label.gptid.enable="0"
 vfs.root.mountfrom="zfs:zroot/ROOT/default"
-vfs.root.mountfrom.options="rw"
 EOF
 
 # /etc/rc.conf

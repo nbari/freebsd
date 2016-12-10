@@ -18,7 +18,7 @@ gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ${mddev}
 
 sysctl vfs.zfs.min_auto_ashift=12
 
-zpool create -o altroot=/mnt -o autoexpand=on -O canmount=off -O compress=lz4 -O atime=off -m none zroot /dev/gpt/disk0
+zpool create -o cachefile=/var/tmp/zpool.cache -o altroot=/mnt -o autoexpand=on -O canmount=off -O compress=lz4 -O atime=off -m none zroot /dev/gpt/disk0
 zfs create -o mountpoint=none zroot/ROOT
 zfs create -o mountpoint=/ zroot/ROOT/default
 zfs create -o mountpoint=/tmp -o exec=off -o setuid=off zroot/tmp
@@ -158,7 +158,11 @@ security.bsd.unprivileged_proc_debug=0
 security.bsd.stack_guard_page=1
 EOF
 
-sync
+zpool export zroot
+zpool import -o cachefile=/var/tmp/zpool.cache -o altroot=/mnt -o autoexpand=on zroot
+zfs set compression=lz4 zroot
+zfs set atime=off zroot
+cp -v /var/tmp/zpool.cache /mnt/boot/zfs/
 zpool export zroot
 mdconfig -d -u ${mddev}
 chflags -R noschg /mnt

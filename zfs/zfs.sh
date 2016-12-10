@@ -125,8 +125,9 @@ touch /mnt/firstboot
 cat << EOF > /mnt/boot/loader.conf
 autoboot_delay="-1"
 beastie_disable="YES"
-console="comconsole"
+console="comconsole,vidconsole"
 hw.broken_txfifo="1"
+hw.memtest.test="0"
 kern.geom.label.disk_ident.enable="0"
 kern.geom.label.gptid.enable="0"
 zfs_load="YES"

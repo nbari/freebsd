@@ -159,11 +159,6 @@ security.bsd.stack_guard_page=1
 EOF
 
 zpool export zroot
-zpool import -o cachefile=/var/tmp/zpool.cache -o altroot=/mnt -o autoexpand=on zroot
-zfs set compression=lz4 zroot
-zfs set atime=off zroot
-cp -v /var/tmp/zpool.cache /mnt/boot/zfs/
-zpool export zroot
 mdconfig -d -u ${mddev}
 chflags -R noschg /mnt
 rm -rf /mnt/*

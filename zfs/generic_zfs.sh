@@ -130,6 +130,8 @@ beastie_disable="YES"
 console="comconsole"
 hw.broken_txfifo="1"
 zfs_load="YES"
+kern.geom.label.disk_ident.enable="0"
+kern.geom.label.gptid.enable="0"
 vfs.root.mountfrom="zfs:zroot/ROOT/default"
 vfs.root.mountfrom.options="rw"
 EOF
@@ -162,8 +164,8 @@ EOF
 
 zpool export zroot
 mdconfig -d -u ${mddev}
-chflags -R noschg /mnt/*
-rm -rf /mnt*
+chflags -R noschg /mnt
+rm -rf /mnt/*
 
 END=$(date +%s)
 DIFF=$(echo "$END - $START" | bc)

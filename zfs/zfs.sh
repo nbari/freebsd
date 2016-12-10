@@ -15,9 +15,9 @@ gpart add -a 4k -s 512k -t freebsd-boot ${mddev}
 gpart add -a 1m -t freebsd-zfs -l disk0 ${mddev}
 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ${mddev}
 
-sysctl vfs.zfs.min_aut_ashift=12
+sysctl vfs.zfs.min_auto_ashift=12
 
-zpool create -o cachefile=/var/tmp/zpool.cache -o altroot=/mnt -O compress=lz4 -O atime=off -O utf8only=on -O autoexpand=on zroot /dev/gpt/disk0
+zpool create -o cachefile=/var/tmp/zpool.cache -o altroot=/mnt -o autoexpand=on -O compress=lz4 -O atime=off -O utf8only=on zroot /dev/gpt/disk0
 zfs create -o mountpoint=none zroot/ROOT
 zfs create -o mountpoint=/ zroot/ROOT/default
 zfs create -o mountpoint=/tmp -o exec=on -o setuid=off zroot/tmp

@@ -32,27 +32,24 @@ zfs create zroot/usr/obj
 zpool set bootfs=zroot/ROOT/default zroot
 
 cd /usr/src
-make DESTDIR=/zroot installworld && make DESTDIR=/zroot installkernel
-make DESTDIR=/zroot distribution
+make DESTDIR=/mnt installworld && make DESTDIR=/mnt installkernel
+make DESTDIR=/mnt distribution
 
-cp /var/tmp/zpool.cache /zroot/boot/zfs/zpool.cache
+cp /var/tmp/zpool.cache /mnt/boot/zfs/zpool.cache
 
 # loader.conf
-cat << EOF > /zroot/boot/loader.conf
-#kern.geom.label.disk_ident.enable="0"
-#kern.geom.label.gptid.enable="0"
-#kern.geom.label.gpt.enable="1"
+cat << EOF > /mnt/boot/loader.conf
 zfs_load="YES"
 vfs.root.mountfrom="zfs:zroot/ROOT/default"
 EOF
 
 # rc.conf
-cat << EOF > /zroot/etc/rc.conf
+cat << EOF > /mnt/etc/rc.conf
 zfs_enable="YES"
 ifconfig_DEFAULT="SYNCDHCP"
 sshd_enable="YES"
 ntpd_enable="YES"
 EOF
 
-#zpool export zroot
-#mdconfig -d -u ${mddev}
+zpool export zroot
+mdconfig -d -u ${mddev}

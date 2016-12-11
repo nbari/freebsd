@@ -161,10 +161,10 @@ beastie_disable="YES"
 console="comconsole,vidconsole"
 hw.broken_txfifo="1"
 hw.memtest.test="0"
-hw.vtnet.mq_disable="1"'
+hw.vtnet.mq_disable="1"
 kern.geom.label.disk_ident.enable="0"
 kern.geom.label.gptid.enable="0"
-kern.timecounter.hardware=ACPI-safe'
+kern.timecounter.hardware=ACPI-safe
 loader_logo="none"
 zfs_load="YES"
 EOF

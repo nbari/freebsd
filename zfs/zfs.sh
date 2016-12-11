@@ -8,6 +8,7 @@ VMSIZE=2g
 GH_USER=nbari # fetch keys from http://github.com/__user__.keys"
 
 # ----------------------------------------------------------------------------
+zpool list
 truncate -s ${VMSIZE} ${RAW}
 mddev=$(mdconfig -a -t vnode -f ${RAW})
 

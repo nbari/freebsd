@@ -1,11 +1,12 @@
 #!/bin/sh
 # ----------------------------------------------------------------------------
-# Create disk.raw FreeBSD ZFS root
+# FreeBSD ZFS root
+# Create disk.raw, disk.tar.gz for Google Compute Engine
 # ----------------------------------------------------------------------------
 START=$(date +%s)
 RAW=disk.raw
 VMSIZE=2g
-GH_USER=nbari # fetch keys from http://github.com/__user__.keys"
+CDIR=$PWD
 
 # ----------------------------------------------------------------------------
 zpool list
@@ -201,6 +202,7 @@ chflags -R noschg /mnt
 rm -rf /mnt/*
 
 echo "  Creating image tar"
+cd ${CDIR}
 tar --format=gnutar -Szcf disk.tar.gz disk.raw
 
 END=$(date +%s)

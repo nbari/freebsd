@@ -119,8 +119,12 @@ FETCHKEY
 sed -i '' -e "s:__user__:${GH_USER}:g" /mnt/usr/local/etc/rc.d/fetchkey
 
 chmod 0555 /mnt/usr/local/etc/rc.d/fetchkey
-touch /mnt/etc/fstab
 touch /mnt/firstboot
+
+# /etc/fstab
+cat << EOF > /mnt/etc/fstab
+/dev/gpt/swap0   none    swap    sw      0       0
+EOF
 
 # /boot/loader.conf
 cat << EOF > /mnt/boot/loader.conf

@@ -173,7 +173,7 @@ EOF
 cat << EOF > /mnt/etc/rc.conf
 gce_metadata_enable="YES"
 zfs_enable="YES"
-ifconfig_DEFAULT="SYNCDHCP mtu 1460"
+ifconfig_DEFAULT="SYNCDHCP mtu 1460 -tso -vlanhwtso"
 clear_tmp_enable="YES"
 dumpdev="NO"
 ntpd_enable="YES"

@@ -4,7 +4,7 @@
 # ----------------------------------------------------------------------------
 START=$(date +%s)
 RAW=disk.raw
-VMSIZE=1g
+VMSIZE=2g
 GH_USER=nbari # fetch keys from http://github.com/__user__.keys"
 
 # ----------------------------------------------------------------------------
@@ -13,6 +13,7 @@ mddev=$(mdconfig -a -t vnode -f ${RAW})
 
 gpart create -s gpt ${mddev}
 gpart add -a 4k -s 512k -t freebsd-boot ${mddev}
+gpart add -a 4k -t freebsd-swap -s 1G -l swap0 ${mddev}
 gpart add -a 1m -t freebsd-zfs -l disk0 ${mddev}
 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ${mddev}
 

@@ -30,7 +30,6 @@ umount_loop() {
 
 VMBASE=${DESTDIR}.img
 mkdir -p ${DESTDIR}
-# truncate -s 1536M ${VMBASE}
 truncate -s ${VMSIZE} ${VMBASE}
 mddev=$(mdconfig -f ${VMBASE})
 newfs /dev/${mddev}

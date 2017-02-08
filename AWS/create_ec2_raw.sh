@@ -122,7 +122,7 @@ EOF
 # rc.conf
 echo 'ec2_fetchkey_enable="YES"' > ${DESTDIR}/etc/rc.conf
 echo 'growfs_enable="YES"' >> ${DESTDIR}/etc/rc.conf
-echo 'ifconfig_DEFAULT="SYNCDHCP"' >> ${DESTDIR}/etc/rc.conf
+echo 'ifconfig_DEFAULT="SYNCDHCP -tso"' >> ${DESTDIR}/etc/rc.conf
 echo 'clear_tmp_enable="YES"' >> ${DESTDIR}/etc/rc.conf
 echo 'syslogd_flags="-ssC"' >> ${DESTDIR}/etc/rc.conf
 echo 'sendmail_enable="NONE"' >> ${DESTDIR}/etc/rc.conf

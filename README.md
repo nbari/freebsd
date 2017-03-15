@@ -20,6 +20,7 @@ FreeBSD's advanced features, proven security, and predictable release cycle, as 
 * Netflix [Serving one-third of the Internet](https://www.youtube.com/watch?v=FL5U4wr86L4)
 * Sony [PlayStation 4](http://en.wikipedia.org/wiki/PlayStation_4_system_software)
 * WhatsApp [OpenSource](http://www.whatsapp.com/opensource/)
+* Nintendo [Switch](https://en.wikipedia.org/wiki/Nintendo_Switch_system_software)
 
 More here: (https://www.freebsd.org/doc/handbook/nutshell.html)
 

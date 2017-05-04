@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------
 # FABRIK: all in one working in AWS & GCE and VPC's that offer VNC
 # - xen & vmx (KVM/VMWARE)
-# - Intel em0
+# - Intel em0, igb, ixgbe
 # - USB
 # - pf without ALTQ
 # - CARP
@@ -113,7 +113,9 @@ options		TERMINAL_KERN_ATTR=(FG_YELLOW|BG_BLACK)
 device		uart			# Generic UART driver
 
 # PCI Ethernet NICs.
-device          em                      # Intel PRO/1000 Gigabit Ethernet Family
+device		em			# Intel PRO/1000 Gigabit Ethernet Family
+device		igb			# Intel PRO/1000 PCIE Server Gigabit Family
+device		ixgbe			# Intel PRO/10GbE PCIE Ethernet Family
 
 # Pseudo devices.
 device		loop			# Network loopback
@@ -186,6 +188,11 @@ options ALTQ_RIO        # RED In/Out
 options ALTQ_HFSC       # Hierarchical Packet Scheduler (HFSC)
 options ALTQ_PRIQ       # Priority Queuing (PRIQ)
 options ALTQ_NOPCC      # Required for SMP build
+
+# This option is used for by firewall not to decrement time to live (TTL) value.
+# This is used to hide presence of your firewall for outside world
+# (your firewall will not be seen with traceroute command).
+options IPSTEALTH
 
 # VPN
 options   IPSEC

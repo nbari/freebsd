@@ -1,12 +1,14 @@
 # ----------------------------------------------------------------------------
-# PULQUE: for routes/firewalls
+# FABRIK: all in one working in AWS & GCE and VPC's that offer VNC
 # - xen & vmx (KVM/VMWARE)
+# - Intel em0
+# - USB
 # - pf without ALTQ
 # - CARP
 # - IPSEC
 # ----------------------------------------------------------------------------
 cpu		HAMMER
-ident   	PULQUE
+ident   	FABRIK
 
 options 	SCHED_ULE		# ULE scheduler
 options 	PREEMPTION		# Enable kernel thread preemption
@@ -110,6 +112,9 @@ options		TERMINAL_KERN_ATTR=(FG_YELLOW|BG_BLACK)
 # Serial (COM) ports
 device		uart			# Generic UART driver
 
+# PCI Ethernet NICs.
+device          em                      # Intel PRO/1000 Gigabit Ethernet Family
+
 # Pseudo devices.
 device		loop			# Network loopback
 device		random			# Entropy device
@@ -126,6 +131,15 @@ device		firmware		# firmware assist module
 # Be aware of the administrative consequences of enabling this!
 # Note that 'bpf' is required for DHCP.
 device		bpf			# Berkeley packet filter
+
+# USB support
+device          uhci                    # UHCI PCI->USB interface
+device          ohci                    # OHCI PCI->USB interface
+device          ehci                    # EHCI PCI->USB interface (USB 2.0)
+device          xhci                    # XHCI PCI->USB interface (USB 3.0)
+device          usb                     # USB Bus (required)
+device          ukbd                    # Keyboard
+device          umass                   # Disks/Mass storage - Requires scbus and da
 
 # VirtIO support
 device		virtio			# Generic VirtIO bus (required)
@@ -183,7 +197,7 @@ device    aesni
 device    enc
 
 # routes setfib
-options ROUTETABLES=8
+options ROUTETABLES=4
 
 # encapsulating network device
 device gre

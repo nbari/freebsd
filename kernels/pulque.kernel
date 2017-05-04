@@ -175,8 +175,6 @@ options ALTQ_NOPCC      # Required for SMP build
 
 # VPN
 options   IPSEC
-options   IPSEC_FILTERTUNNEL
-options   IPSEC_NAT_T
 options   IPSEC_DEBUG
 device    crypto
 device    aesni

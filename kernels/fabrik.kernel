@@ -196,8 +196,6 @@ options IPSTEALTH
 
 # VPN
 options   IPSEC
-options   IPSEC_FILTERTUNNEL
-options   IPSEC_NAT_T
 options   IPSEC_DEBUG
 device    crypto
 device    aesni

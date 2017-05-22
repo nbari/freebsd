@@ -131,12 +131,19 @@ this is the basic conf:
     server {
         listen 80 default_server;
         server_name _;
+        root /usr/local/share/poudriere/html;
+        index index.html index.html;
+        autoindex on;
 
-        location / {
-            root /usr/local/poudriere/data;
+        location /data {
+            alias /usr/local/poudriere/data/logs/bulk;
             autoindex on;
         }
 
+        location /packages {
+            root /usr/local/poudriere/data;
+            autoindex on;
+        }
     }
 
 make.conf

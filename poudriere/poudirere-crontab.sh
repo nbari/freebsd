@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  update pkg jails
-# 30       1      *       *       *       root    /poudriere-crontab
+# 30       1      *       *       *       root    /poudriere-crontab 11amd64 default
 
 JAILNAME=$1
 PORTSTREE=$2

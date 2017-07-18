@@ -12,7 +12,7 @@ Requirements
 
 Install them:
 
-    pkg install awscli curl python vim-lite sudo py27-salt iperf
+    pkg install awscli curl python vim-lite sudo py27-salt py27-boto py27-boto3 iperf
 
 
 Configure the minion ``cat /usr/local/etc/minion``:

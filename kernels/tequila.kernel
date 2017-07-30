@@ -68,6 +68,7 @@ options 	KDB_TRACE		# Print a stack trace for a panic.
 # Make an SMP-capable kernel by default
 options 	SMP			# Symmetric MultiProcessor Kernel
 options 	DEVICE_NUMA		# I/O Device Affinity
+options     EARLY_AP_STARTUP
 
 # CPU frequency control
 device		cpufreq
@@ -162,3 +163,6 @@ device		vmx
 # disk encryption
 options		GEOM_ELI
 device		crypto
+
+# Netmap provides direct access to TX/RX rings on supported NICs
+device          netmap                  # netmap(4) support

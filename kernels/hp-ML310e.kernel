@@ -186,3 +186,7 @@ options		GEOM_ELI
 
 # Netmap provides direct access to TX/RX rings on supported NICs
 device          netmap                  # netmap(4) support
+
+device tap
+device if_bridge
+device nmdm

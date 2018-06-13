@@ -64,8 +64,7 @@ Full update (fast way)
 5. ``yes | make delete-old``
 6. ``cp -R /etc /etc.old && cd /usr/src && make distribution DESTDIR=/``
 7. ``cd /etc.old && cp group passwd master.passwd /etc && pwd_mkdb /etc/master.passwd``
-> Just in case you may want to copy the sshd_config:
-> cp /etc.old/ssh/sshd_config /etc/ssh/
+> Just in case you may want to copy the sshd_config: `cp /etc.old/ssh/sshd_config /etc/ssh/`
 8. ``reboot``
 9. ``yes | make delete-old-libs``
 

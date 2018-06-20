@@ -14,6 +14,8 @@ Create the snapshot:
 
     zfs snapshot -r tank@25-01-2014
 
+> `-r` for recursive
+
 Send it via ssh + bzip2
 
     zfs send -Rv tank@25-01-2014 | bzip2 -c | ssh sever.tld "bzcat | zfs recv -F zroot/backup/tank"
@@ -31,7 +33,7 @@ One-liner:
 
 Send snapshot to file:
 
-    zfs send -Rv tank@25-01-2014 | bzip2 > tank_backup.bz2
+    zfs send -Rv tank/jails/base@25-01-2014 | bzip2 > tank_backup.bz2
 
 Receive snapshot from a file:
 

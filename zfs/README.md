@@ -18,7 +18,7 @@ Create the snapshot:
 
 Send it via ssh + bzip2
 
-    zfs send -Rv tank@25-01-2014 | bzip2 -c | ssh sever.tld "bzcat | zfs recv -F zroot/backup/tank"
+    zfs send -Rv tank/dataset@25-01-2014 | bzip2 -c | ssh sever.tld "bzcat | zfs recv -F zroot/backup/tank"
 
 
 Destroy all snapshots:

@@ -176,3 +176,9 @@ Create a ports tree with the name "custom":
 Buld custom package:
 
     poudriere bulk -j 11amd64 -p custom sysutils/epazote
+
+# sign repo
+
+If for some reason you change the certificate, you can sign the repo with the new cert key:
+
+    pkg repo /usr/local/poudriere/data/packages/11amd64-default /usr/local/etc/ssl/keys/pkg.key

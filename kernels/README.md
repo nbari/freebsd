@@ -10,9 +10,9 @@ Building and Installing a Custom Kernel in 3 simple steps
 
 To get the lates **stable** sources you can do this:
 
-    # svnlite co svn://svn.freebsd.org/base/stable/11 /usr/src
+    # svnlite co svn://svn.freebsd.org/base/stable/12 /usr/src
 
-> At the time of writing this, the latest stable version is number 10.
+> At the time of writing this, the latest stable version is number 12.
 
 
 2. Edit your kernel options.
@@ -21,11 +21,15 @@ Based on your requirements you may add or remove stuff. [The configuration file]
 
     # cp /usr/src/sys/amd64/conf/GENERIC /home/tmp/my_custom_kernel
 
-After editing your kernel, create a symlink to the same directory the GENERIC file was found, example:
+After editing your kernel, create a symlink to the same directory the GENERIC
+file was found, example:
+
     # cd /usr/src/sys/amd64/conf
     # ln -s /home/tmp/my_custom_kernel
 
-The idea of coping the GENERIC to /home/tmp/my_custom_kernel, is that you don't delete your custom kernel accidentally while upgrading your sources (when doing a svn checkout)
+The idea of coping the GENERIC to /home/tmp/my_custom_kernel, is that you don't
+delete your custom kernel accidentally while upgrading your sources (when doing
+a svn checkout)
 
 
 3. Compile and install your kernel
@@ -75,6 +79,7 @@ Using mergemaster
 -----------------
 
 After step 3 (before ``make installworld``) do:
+
 ```sh
 mergemaster -p
 make installworld

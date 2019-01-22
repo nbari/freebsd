@@ -50,28 +50,32 @@ First create a ports tree to be used by poudriere
 
 Create the jail and version you want to build packages for:
 
-    poudriere jail -c -j 11amd64 -v 11.0-RELEASE -a amd64
+    poudriere jail -c -j 12amd64 -v 12.0-RELEASE -a amd64
 
 Current Releases:
 ftp://ftp.freebsd.org/pub/FreeBSD/releases/
 
 Create a pkglist
 
-    > cat /usr/local/etc/poudriere.d/11amd64.pkglist
+    > cat /usr/local/etc/poudriere.d/12amd64.pkglist
     www/nginx
+
+Copy options from previous ports:
+
+    cp -R 11amd64-options 12amd64-options
 
 Build the port with custom options:
 
-     poudriere options -cf /usr/local/etc/poudriere.d/11amd64.pkglist -j 11amd64
+     poudriere options -cf /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
 
 Build the packages:
 
-    poudriere bulk -f /usr/local/etc/poudriere.d/11amd64.pkglist -j 11amd64
+    poudriere bulk -f /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
 
 Update the ports:
 
     poudriere ports -u
-    poudriere bulk -f /usr/local/etc/poudriere.d/11amd64.pkglist -j 11amd64
+    poudriere bulk -f /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
 
 
 Daily usage
@@ -79,9 +83,9 @@ Daily usage
 
 Adding a package to the list and setting options for the port and it’s dependencies.
 
-    echo "sysutils/freecolor" >> /usr/local/etc/poudriere.d/11amd64.pkglist
-    poudriere options -cj 11amd64 sysutils/freecolor
-    poudriere bulk -f /usr/local/etc/poudriere.d/11amd64.pkglist -j 11amd64
+    echo "sysutils/freecolor" >> /usr/local/etc/poudriere.d/12amd64.pkglist
+    poudriere options -cj 12amd64 sysutils/freecolor
+    poudriere bulk -f /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
 
 
 On the client to update the packages use:
@@ -163,7 +167,7 @@ IF pkg start behaving like in a loop, try:
 
     pkg install -r poudriere pkg
 
-where poudriere is one of the servers/Repositories listed on the output of ``pkg -vv``
+Where poudriere is one of the servers/Repositories listed on the output of ``pkg -vv``
 
 
 Custom ports
@@ -173,12 +177,12 @@ Create a ports tree with the name "custom":
 
     poudriere ports -c -p custom
 
-Buld custom package:
+Build custom package:
 
-    poudriere bulk -j 11amd64 -p custom sysutils/epazote
+    poudriere bulk -j 12amd64 -p custom sysutils/epazote
 
 # sign repo
 
 If for some reason you change the certificate, you can sign the repo with the new cert key:
 
-    pkg repo /usr/local/poudriere/data/packages/11amd64-default /usr/local/etc/ssl/keys/pkg.key
+    pkg repo /usr/local/poudriere/data/packages/12amd64-default /usr/local/etc/ssl/keys/pkg.key

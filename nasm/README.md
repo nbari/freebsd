@@ -2,7 +2,7 @@
 assemble, link, and run the code:
 
     $ nasm -f elf64 hello.asm
-    $ ld -o hello hello.o
+    $ ld -m elf_amd64_fbsd -o hello -s hello.o
     $ ./hello
     Hello, World!
 

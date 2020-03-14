@@ -50,7 +50,7 @@ First create a ports tree to be used by poudriere
 
 Create the jail and version you want to build packages for:
 
-    poudriere jail -c -j 12amd64 -v 12.0-RELEASE -a amd64
+    poudriere jail -c -j 12amd64 -v 12.1-RELEASE -a amd64
 
 Current Releases:
 ftp://ftp.freebsd.org/pub/FreeBSD/releases/

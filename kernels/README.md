@@ -74,6 +74,7 @@ Full update (fast way)
 
 > -j40 means to have up to 40 proccess running at any one time. (-j will cause ``make`` to spawn several simultaneous processes)
 
+Try this script: [update.sh](update.sh)
 
 Using mergemaster
 -----------------

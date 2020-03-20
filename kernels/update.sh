@@ -4,9 +4,19 @@ NUMBER_OF_CORES=`sysctl -n hw.ncpu`
 ZPOOL="tank"
 START=$(date +%s)
 
-svnlite co svn://svn.freebsd.org/base/stable/${FREEBSD_VERSION} /usr/src
+if [ `sysctl -n kern.securelevel` -gt 0 ]; then
+    sysrc kern_securelevel_enable="NO"
+    echo "need to reboot with securelevel 0"
+    exit
+fi
+
 
 cd /usr/src
+
+svnlite co svn://svn.freebsd.org/base/stable/${FREEBSD_VERSION} /usr/src
+
+# Exit immediately if a command exits with a non-zero exit status
+set -e
 
 make -j${NUMBER_OF_CORES} buildworld
 make -j${NUMBER_OF_CORES} kernel

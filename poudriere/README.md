@@ -42,15 +42,13 @@ Create the key (public/private)
 
 Be sure to copy the pkg.cert file to your client systems
 
-
 First create a ports tree to be used by poudriere
 
-    poudriere ports -c
-
+    poudriere ports -c -m svn+https
 
 Create the jail and version you want to build packages for:
 
-    poudriere jail -c -j 12amd64 -v 12.1-RELEASE -a amd64
+    poudriere jail -c -j 12amd64 -v 12.1-RELEASE -a amd64 -m svn+https
 
 Current Releases:
 ftp://ftp.freebsd.org/pub/FreeBSD/releases/

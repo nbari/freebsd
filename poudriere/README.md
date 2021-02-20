@@ -54,7 +54,7 @@ Create the jail and version you want to build packages for:
 or
 
     # this will fetch the release (faster)
-    poudriere jail -c -j 12amd64 -v 12.1-RELEASE -a amd64
+    poudriere jail -c -j 12amd64 -v 12.2-RELEASE -a amd64
 
 
 Current Releases:

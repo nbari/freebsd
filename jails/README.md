@@ -54,6 +54,11 @@ basically this will create a new user land, compiling everything based on
 your architecture and kernel.
 
 
+Mounting the devfs(8) file system inside a jail is not required:
+
+    # mount -t devfs devfs $D/dev
+
+
 > If you are running this remotely (ssh) try using tmux/screen so that you can
 > close your session without need to wait the process to finish.  On a xen VM
 > with 8 GB memory and 4 cores (CPU: Intel(R) Xeon(R) CPU E5-2630L 0 @2.00GHz

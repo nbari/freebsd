@@ -44,17 +44,20 @@ Be sure to copy the pkg.cert file to your client systems
 
 First create a ports tree to be used by poudriere
 
-    poudriere ports -c -m svn+https
+    poudriere ports -c -B main -m git+https -p default
+
+>  `poudriere ports -c -m svn+https`
 
 Create the jail and version you want to build packages for:
 
     # this will compile/build the jail
-    poudriere jail -c -j 12amd64 -v stable/12 -a amd64 -m svn+https
+    poudriere jail -c -j 13amd64 -v stable/13 -a amd64 -m svn+https
 
 or
 
     # this will fetch the release (faster)
-    poudriere jail -c -j 12amd64 -v 12.2-RELEASE -a amd64
+    poudriere jail -c -j 13amd64 -v 13.0-RELEASE -a amd64
+
 
 
 Current Releases:

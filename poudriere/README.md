@@ -51,12 +51,12 @@ First create a ports tree to be used by poudriere
 Create the jail and version you want to build packages for:
 
     # this will compile/build the jail
-    poudriere jail -c -j 13amd64 -v stable/13 -a amd64 -m svn+https
+    poudriere jail -c -j 13amd64 -v stable/13 -a amd64 -m git+https
 
 or
 
     # this will fetch the release (faster)
-    poudriere jail -c -j 13amd64 -v 13.0-RELEASE -a amd64
+    poudriere jail -c -j 13amd64 -v 13.1-RELEASE -a amd64
 
 
 

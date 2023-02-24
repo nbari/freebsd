@@ -73,16 +73,16 @@ Copy options from previous ports:
 
 Build the port with custom options:
 
-     poudriere options -cf /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
+     poudriere options -cf /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
 
 Build the packages:
 
-    poudriere bulk -f /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
+    poudriere bulk -f /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
 
 Update the ports:
 
     poudriere ports -u
-    poudriere bulk -f /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
+    poudriere bulk -f /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
 
 
 Daily usage
@@ -90,9 +90,9 @@ Daily usage
 
 Adding a package to the list and setting options for the port and it’s dependencies.
 
-    echo "sysutils/freecolor" >> /usr/local/etc/poudriere.d/12amd64.pkglist
-    poudriere options -cj 12amd64 sysutils/freecolor
-    poudriere bulk -f /usr/local/etc/poudriere.d/12amd64.pkglist -j 12amd64
+    echo "sysutils/freecolor" >> /usr/local/etc/poudriere.d/13amd64.pkglist
+    poudriere options -cj 13amd64 sysutils/freecolor
+    poudriere bulk -f /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
 
 
 On the client to update the packages use:
@@ -107,7 +107,7 @@ Using the -C option instead of -c rebuilds only the ports listed in the file
 specified by the -f option or given on the command line. For example this would
 forcibly rebuild the www/nginx package and no other package:
 
-    poudriere bulk -Ctr -j 11amd64 www/nginx
+    poudriere bulk -Ctr -j 13amd64 www/nginx
     # -t Test the specified ports for leafovers
     # -r recursively test all dependecies as well
 
@@ -186,10 +186,10 @@ Create a ports tree with the name "custom":
 
 Build custom package:
 
-    poudriere bulk -j 12amd64 -p custom sysutils/epazote
+    poudriere bulk -j 13amd64 -p custom sysutils/epazote
 
 # sign repo
 
 If for some reason you change the certificate, you can sign the repo with the new cert key:
 
-    pkg repo /usr/local/poudriere/data/packages/12amd64-default /usr/local/etc/ssl/keys/pkg.key
+    pkg repo /usr/local/poudriere/data/packages/13amd64-default /usr/local/etc/ssl/keys/pkg.key

@@ -172,3 +172,16 @@ rc.conf
 Don't forget to enable ZFS on rc.conf:
 
     zfs_enable="YES"
+
+
+# upgrade
+
+After:
+
+    zpool upgrade -a
+
+
+Update the loader:
+
+    cp /boot/loader.efi /boot/efi/efi/freebsd bootx64.efi
+    gpart bootcode -p /boot/gptzfsboot -i 2 nda0

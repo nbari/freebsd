@@ -51,12 +51,12 @@ First create a ports tree to be used by poudriere
 Create the jail and version you want to build packages for:
 
     # this will compile/build the jail
-    poudriere jail -c -j 13amd64 -v stable/13 -a amd64 -m git+https
+    poudriere jail -c -j 14amd64 -v stable/14 -a amd64 -m git+https
 
 or
 
     # this will fetch the release (faster)
-    poudriere jail -c -j 13amd64 -v 13.2-RELEASE -a amd64
+    poudriere jail -c -j 14amd64 -v 14.0-RELEASE -a amd64
 
 
 Current Releases:
@@ -64,25 +64,25 @@ ftp://ftp.freebsd.org/pub/FreeBSD/releases/
 
 Create a pkglist
 
-    > cat /usr/local/etc/poudriere.d/12amd64.pkglist
+    > cat /usr/local/etc/poudriere.d/14amd64.pkglist
     www/nginx
 
 Copy options from previous ports:
 
-    cp -R 11amd64-options 12amd64-options
+    cp -R 11amd64-options 14amd64-options
 
 Build the port with custom options:
 
-     poudriere options -cf /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
+     poudriere options -cf /usr/local/etc/poudriere.d/14amd64.pkglist -j 14amd64
 
 Build the packages:
 
-    poudriere bulk -f /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
+    poudriere bulk -f /usr/local/etc/poudriere.d/14amd64.pkglist -j 14amd64
 
 Update the ports:
 
     poudriere ports -u
-    poudriere bulk -f /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
+    poudriere bulk -f /usr/local/etc/poudriere.d/14amd64.pkglist -j 14amd64
 
 
 Daily usage
@@ -90,9 +90,9 @@ Daily usage
 
 Adding a package to the list and setting options for the port and it’s dependencies.
 
-    echo "sysutils/freecolor" >> /usr/local/etc/poudriere.d/13amd64.pkglist
-    poudriere options -cj 13amd64 sysutils/freecolor
-    poudriere bulk -f /usr/local/etc/poudriere.d/13amd64.pkglist -j 13amd64
+    echo "sysutils/freecolor" >> /usr/local/etc/poudriere.d/14amd64.pkglist
+    poudriere options -cj 14amd64 sysutils/freecolor
+    poudriere bulk -f /usr/local/etc/poudriere.d/14amd64.pkglist -j 14amd64
 
 
 On the client to update the packages use:
@@ -107,7 +107,7 @@ Using the -C option instead of -c rebuilds only the ports listed in the file
 specified by the -f option or given on the command line. For example this would
 forcibly rebuild the www/nginx package and no other package:
 
-    poudriere bulk -Ctr -j 13amd64 www/nginx
+    poudriere bulk -Ctr -j 14amd64 www/nginx
     # -t Test the specified ports for leafovers
     # -r recursively test all dependecies as well
 
